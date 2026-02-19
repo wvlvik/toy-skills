@@ -7,10 +7,45 @@ Skills follow the [Agent Skills](https://agentskills.io/) format.
 ## Installation
 
 ```bash
-npx skills add wvlvik/zan-skills
+npx skills add wvlvik/toy-skills --skill <skill-name>
 ```
 
 ## Available Skills
+
+### commit-review
+
+WeChat Mini Program native development code review skill for checking architecture constraints, best practices, and common issues.
+
+**Use when:**
+- Before committing code (pre-git commit)
+- During code review
+- When user explicitly requests code review
+- Keywords: review, 评审, 检查, commit, 提交
+
+**Features:**
+- Runtime module externalization check
+- Dependency installation rule validation (devDependencies)
+- TypeScript enforcement check
+- Tailwind CSS compliance validation
+- Performance best practices check
+- Common issues detection (iOS compatibility, etc.)
+
+### jimeng-api-image-gen
+
+Generate high-quality AI images using Volcengine Jimeng API 4.0.
+
+**Use when:**
+- Text-to-image generation requests
+- Image-to-image editing or style transfer
+- Batch image creation
+- Keywords: generate image, create picture, AI image, 即梦, Jimeng, Seedream
+
+**Features:**
+- Text-to-image generation
+- Image-to-image editing
+- Multiple resolution presets (1K, 2K, 4K)
+- Custom dimensions and aspect ratios
+- Local file output support
 
 ### example-skill
 
@@ -32,14 +67,18 @@ Each skill contains:
 ## Project Structure
 
 ```
-zan-skills/
-├── README.md           # Project documentation
-├── AGENTS.md           # Supported AI agents
-├── skills/             # All skills directory
-│   └── example-skill/  # Example skill
-│       ├── SKILL.md
-│       ├── scripts/
-│       └── references/
+toy-skills/
+├── README.md              # Project documentation
+├── AGENTS.md              # Supported AI agents
+├── skills/                # All skills directory
+│   ├── commit-review/     # WeChat Mini Program code review
+│   │   └── SKILL.md
+│   ├── jimeng-api-image-gen/  # Jimeng AI image generation
+│   │   ├── SKILL.md
+│   │   ├── README.md
+│   │   └── scripts/
+│   └── example-skill/     # Example skill template
+│       └── SKILL.md
 ```
 
 ## Supported Agents
