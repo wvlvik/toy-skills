@@ -55,7 +55,7 @@ scripts/generate_image.py "Mountain sunset landscape" --size 2K
 scripts/generate_image.py "Change to watercolor style" --images https://example.com/input.jpg
 
 # Save to file
-scripts/generate_image.py "Serene lake at sunset" --output generated_images/lake.png
+scripts/generate_image.py "Serene lake at sunset" --output /generated_images/lake.png
 ```
 
 ## API Configuration
