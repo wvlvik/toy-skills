@@ -21,3 +21,4 @@ tmp/
 # Logs
 logs/
 *.log
+__pycache__
