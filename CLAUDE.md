@@ -152,14 +152,16 @@ Use the `skill-release` skill to sync skills from `.agents/skills/` (development
 
 ```bash
 # Release all skills with changes
-python .agents/skills/skill-release/scripts/release_skill.py
+python3 .agents/skills/skill-release/scripts/release_skill.py
 
 # Preview changes without executing
-python .agents/skills/skill-release/scripts/release_skill.py --dry-run
+python3 .agents/skills/skill-release/scripts/release_skill.py --dry-run
 
 # Release specific skill only
-python .agents/skills/skill-release/scripts/release_skill.py --skill <skill-name>
+python3 .agents/skills/skill-release/scripts/release_skill.py --skill <skill-name>
 ```
+
+> **Note**: Use `python3` instead of `python` on macOS/Linux systems where `python` is not aliased.
 
 ### Release Workflow
 

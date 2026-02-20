@@ -21,3 +21,17 @@ npx skills add wvlvik/zan-skills --skill <skill-name>
 ```
 
 Once installed, skills will be automatically available in supported agents.
+
+## Releasing Skills
+
+To release skills from `.agents/skills/` to `skills/` directory:
+
+```bash
+# Preview changes
+python3 .agents/skills/skill-release/scripts/release_skill.py --dry-run
+
+# Execute release (copy, version bump, git commit & push)
+python3 .agents/skills/skill-release/scripts/release_skill.py
+```
+
+> **Note**: Use `python3` instead of `python` on macOS/Linux systems where `python` is not aliased.
