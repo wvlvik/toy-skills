@@ -20,6 +20,7 @@ Generate high-quality AI images using Volcengine's Jimeng 4.0 API.
 ### 2. Configure Environment Variables
 
 ```bash
+# ~/.zshrc or ~/.zshenv
 export VOLC_ACCESSKEY="your_access_key_id"
 export VOLC_SECRETKEY="your_secret_access_key"
 ```

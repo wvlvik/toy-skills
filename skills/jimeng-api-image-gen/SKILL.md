@@ -12,6 +12,7 @@ Generate high-quality AI images using Volcengine's Jimeng 4.0 API with text prom
 [Get Access Key/Secret Key](https://www.volcengine.com/docs/85621/1995636?lang=zh#3C9mCW9O)
 
 ```bash
+# ~/.zshrc or ~/.zshenv
 export VOLC_ACCESSKEY="your_access_key_id"
 export VOLC_SECRETKEY="your_secret_access_key"
 ```

@@ -21,6 +21,7 @@ Generate high-quality AI videos using Volcengine's Jimeng Video 3.0 Pro API.
 ### 2. Configure Environment Variables
 
 ```bash
+# ~/.zshrc or ~/.zshenv
 export VOLC_ACCESSKEY="your_access_key_id"
 export VOLC_SECRETKEY="your_secret_access_key"
 ```
