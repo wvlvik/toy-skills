@@ -6,7 +6,7 @@ This skill package is designed to work with various AI coding agents. Below is t
 
 - **Claude Code** - Anthropic's coding-capable AI model
 - **Cursor** - AI-powered code editor
-- **Windsurf** - AI development environment
+- **OpenCode** - AI-powered code editor
 
 ## Compatibility Notes
 
@@ -17,7 +17,7 @@ Each skill may have specific agent compatibility notes. Check individual `SKILL.
 Install this skill package using the skills CLI:
 
 ```bash
-npx skills add wvlvik/zan-skills
+npx skills add wvlvik/zan-skills --skill <skill-name>
 ```
 
 Once installed, skills will be automatically available in supported agents.

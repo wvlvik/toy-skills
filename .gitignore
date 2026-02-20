@@ -14,6 +14,9 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
+generated_images/
+generated_videos/
+tmp/
 
 # Logs
 logs/
