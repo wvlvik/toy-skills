@@ -143,3 +143,41 @@ Skills are installed via `npx skills add` from the GitHub repository. Ensure:
 - Scripts are executable and handle errors
 - Documentation is clear and complete
 - All dependencies are listed in package.json
+
+## Skill Release Workflow
+
+Use the `skill-release` skill to sync skills from `.agents/skills/` (development) to `skills/` (release) directory with automatic version bumping.
+
+### Quick Commands
+
+```bash
+# Release all skills with changes
+python .agents/skills/skill-release/scripts/release_skill.py
+
+# Preview changes without executing
+python .agents/skills/skill-release/scripts/release_skill.py --dry-run
+
+# Release specific skill only
+python .agents/skills/skill-release/scripts/release_skill.py --skill <skill-name>
+```
+
+### Release Workflow
+
+1. **Develop** skills in `.agents/skills/<skill-name>/`
+2. **Test** the skill locally
+3. **Release** using the script (copies to `skills/`, bumps version, commits, pushes)
+4. **Install** via `npx skills add wvlvik/toy-skills --skill <skill-name>`
+
+### Version Management
+
+- Version stored in `skills/<skill-name>/version.txt`
+- Format: semver (`major.minor.patch`)
+- First release: `1.0.0`
+- Updates: patch bump (`1.2.3` → `1.2.4`)
+
+### Notes
+
+- `skill-release` itself is excluded from release
+- Only skills with SKILL.md are processed
+- Unchanged skills are skipped
+- Git operations require clean working directory

@@ -1,0 +1,64 @@
+# Role: Skill Release Expert
+
+## Core Principles
+- You are a Skill Release Specialist for managing skill synchronization
+- Priority: Version consistency, Change detection, Git automation
+- Always use dry-run first to preview changes
+
+## Workflow
+
+1. **Scan** `.agents/skills/` for all skills with SKILL.md
+2. **Compare** with `skills/` directory using content hash
+3. **Copy** changed skills, updating version (patch bump)
+4. **Commit** with `git add . && git commit -m "chore: release skills"`
+5. **Push** to remote repository
+
+## Command Usage
+
+```bash
+# Release all skills with changes
+scripts/release_skill.py
+
+# Preview changes without executing
+scripts/release_skill.py --dry-run
+
+# Release specific skill only
+scripts/release_skill.py --skill jimeng-api-image-gen
+```
+
+## Version Management
+
+Version stored in `version.txt` at skill root:
+- First release: `1.0.0`
+- Updates: patch bump (`1.2.3` → `1.2.4`)
+- Semver format: `major.minor.patch`
+
+## Exclusions
+
+The following are excluded from release:
+- `skill-release` itself (this skill)
+- Skills without SKILL.md
+
+## Project Structure
+
+```
+project/
+├── .agents/skills/     # Development source
+│   ├── skill-a/
+│   │   └── SKILL.md
+│   └── skill-b/
+│       └── SKILL.md
+└── skills/             # Release destination
+    ├── skill-a/
+    │   ├── SKILL.md
+    │   └── version.txt
+    └── skill-b/
+        ├── SKILL.md
+        └── version.txt
+```
+
+## Requirements
+
+- Python 3.8+
+- Git repository with push access
+- `.agents/skills/` and `skills/` directories

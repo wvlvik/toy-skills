@@ -1,15 +1,15 @@
 {
-  "name": "jimeng-api-image-gen",
+  "name": "skill-release",
   "version": "1.0.0",
-  "description": "AI image generation skill using Volcengine Jimeng API 4.0",
+  "description": "Sync and publish skills with version bumping and git automation",
   "author": "workspace",
   "license": "MIT",
   "keywords": [
-    "jimeng",
-    "ai-image",
-    "image-generation",
-    "volcengine",
-    "seedream",
+    "skill",
+    "release",
+    "sync",
+    "version",
+    "git",
     "cursor-rules",
     "opencode-skill"
   ],
