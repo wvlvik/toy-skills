@@ -183,16 +183,16 @@ python3 .agents/skills/skill-release/scripts/release_skill.py --skill <skill-nam
 ### Release Workflow
 
 1. **Develop** skills in `.agents/skills/<skill-name>/`
-2. **Test** the skill locally
-3. **Release** using the script (copies to `skills/`, bumps version, commits, pushes)
-4. **Install** via `npx skills add wvlvik/toy-skills --skill <skill-name>`
+2. **Update version** in `.agents/skills/<skill-name>/package.json`
+3. **Test** the skill locally
+4. **Release** using the script (copies to `skills/`, commits, pushes)
+5. **Install** via `npx skills add wvlvik/toy-skills --skill <skill-name>`
 
 ### Version Management
 
-- Version stored in `skills/<skill-name>/version.txt`
+- Version stored in `package.json` (`"version": "1.2.3"`)
 - Format: semver (`major.minor.patch`)
-- First release: `1.0.0`
-- Updates: patch bump (`1.2.3` → `1.2.4`)
+- Manually update version in `.agents/skills/` before release
 
 ### Notes
 

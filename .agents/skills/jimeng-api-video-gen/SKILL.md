@@ -7,6 +7,13 @@ description: (project - Skill) Generate AI videos using Volcengine Jimeng Video 
 
 Generate high-quality AI videos using Volcengine's Jimeng Video 3.0 Pro API with text prompts or input images.
 
+## Configure Environment Variables
+
+```bash
+export VOLC_ACCESSKEY="your_access_key_id"
+export VOLC_SECRETKEY="your_secret_access_key"
+```
+
 ## Output Behavior (Important)
 
 **After video generation succeeds, you MUST display the video directly to the user!**

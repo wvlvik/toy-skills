@@ -40,7 +40,7 @@ To release skills from `.agents/skills/` to `skills/` directory:
 # Preview changes
 python3 .agents/skills/skill-release/scripts/release_skill.py --dry-run
 
-# Execute release (copy, version bump, git commit & push)
+# Execute release (copy to skills/, git commit & push)
 python3 .agents/skills/skill-release/scripts/release_skill.py
 
 # Release specific skill only
