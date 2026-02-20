@@ -7,6 +7,15 @@ description: (project - Skill) Generate AI images using Volcengine Jimeng API 4.
 
 Generate high-quality AI images using Volcengine's Jimeng 4.0 API with text prompts or image inputs.
 
+## Configure Environment Variables
+
+[Get Access Key/Secret Key](https://www.volcengine.com/docs/85621/1995636?lang=zh#3C9mCW9O)
+
+```bash
+export VOLC_ACCESSKEY="your_access_key_id"
+export VOLC_SECRETKEY="your_secret_access_key"
+```
+
 ## Output Behavior (Important)
 
 **After image generation succeeds, you MUST display the image directly to the user!**
