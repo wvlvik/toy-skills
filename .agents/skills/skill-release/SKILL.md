@@ -30,12 +30,12 @@ scripts/release_skill.py --skill jimeng-api-image-gen
 
 ## Version Management
 
-Version is stored in `version.txt` at skill root:
+Version is stored in `package.json` at skill root:
 
 ```
 skill-name/
 ├── SKILL.md
-├── version.txt    # e.g., "1.2.3"
+├── package.json    # contains "version": "1.2.3"
 └── scripts/
 ```
 

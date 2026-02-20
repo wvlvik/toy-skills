@@ -18,7 +18,7 @@ Workflow:
 
 import argparse
 import hashlib
-import re
+import json
 import shutil
 import subprocess
 import sys
@@ -38,35 +38,25 @@ def compute_dir_hash(dir_path: Path) -> str:
 
 
 def get_skill_version(skill_dir: Path) -> str:
-    """Get skill version from version.txt or return default."""
-    version_file = skill_dir / "version.txt"
-    if version_file.exists():
-        return version_file.read_text().strip()
+    """Get skill version from package.json or return default."""
+    package_json = skill_dir / "package.json"
+    if package_json.exists():
+        try:
+            data = json.loads(package_json.read_text())
+            return data.get("version", "1.0.0")
+        except (json.JSONDecodeError, KeyError):
+            pass
     return "1.0.0"
-
-
-def bump_version(current: str) -> str:
-    """Bump patch version."""
-    parts = current.split(".")
-    if len(parts) != 3:
-        return "1.0.1"
-
-    try:
-        major, minor, patch = int(parts[0]), int(parts[1]), int(parts[2])
-    except ValueError:
-        return "1.0.1"
-
-    return f"{major}.{minor}.{patch + 1}"
 
 
 def copy_skill(
     source: Path, dest: Path, dry_run: bool = False
 ) -> tuple[bool, Optional[str]]:
     """
-    Copy skill from source to destination, updating version if changed.
+    Copy skill from source to destination.
 
     Returns:
-        (was_copied, new_version)
+        (was_copied, version)
     """
     if not source.exists():
         print(f"  ❌ Source not found: {source}")
@@ -74,35 +64,29 @@ def copy_skill(
 
     source_hash = compute_dir_hash(source)
     dest_hash = compute_dir_hash(dest) if dest.exists() else None
-
-    # Get current version from destination (if exists)
-    current_version = get_skill_version(dest) if dest.exists() else "1.0.0"
+    source_version = get_skill_version(source)
 
     if dest_hash == source_hash:
-        print(f"  ✓ No changes (v{current_version})")
+        dest_version = get_skill_version(dest) if dest.exists() else "1.0.0"
+        print(f"  ✓ No changes (v{dest_version})")
         return False, None
-
-    # Calculate new version
-    new_version = bump_version(current_version)
 
     if dry_run:
         print(f"  [DRY-RUN] Would copy to {dest}")
-        print(f"  [DRY-RUN] Version: {current_version} → {new_version}")
-        return True, new_version
+        print(f"  [DRY-RUN] Version: v{source_version}")
+        return True, source_version
 
-    # Remove existing destination
     if dest.exists():
         shutil.rmtree(dest)
 
-    # Copy all files
     shutil.copytree(source, dest)
 
-    # Write version file
-    version_file = dest / "version.txt"
-    version_file.write_text(new_version)
+    legacy_version_file = dest / "version.txt"
+    if legacy_version_file.exists():
+        legacy_version_file.unlink()
 
-    print(f"  ✅ Copied, version: {current_version} → {new_version}")
-    return True, new_version
+    print(f"  ✅ Copied v{source_version}")
+    return True, source_version
 
 
 def run_git_commands(dry_run: bool = False) -> bool:

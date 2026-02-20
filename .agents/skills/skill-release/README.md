@@ -34,17 +34,17 @@ scripts/release_skill.py --skill jimeng-api-image-gen
 
 1. Scan `.agents/skills/` for all skills with SKILL.md
 2. Compare with `skills/` directory using content hash
-3. Copy changed skills, creating/updating `version.txt`
+3. Copy changed skills, updating version in `package.json`
 4. Run `git add . && git commit -m "chore: release skills" && git push`
 
 ## Version Management
 
-Version is stored in `version.txt` at skill root:
+Version is stored in `package.json` at skill root:
 
 ```
 skill-name/
 ├── SKILL.md
-├── version.txt    # e.g., "1.2.3"
+├── package.json    # contains "version": "1.2.3"
 └── scripts/
 ```
 
@@ -57,14 +57,18 @@ skill-name/
 project/
 ├── .agents/skills/     # Development source
 │   ├── skill-a/
+│   │   ├── SKILL.md
+│   │   └── package.json
 │   └── skill-b/
+│       ├── SKILL.md
+│       └── package.json
 └── skills/             # Release destination
     ├── skill-a/
     │   ├── SKILL.md
-    │   └── version.txt
+    │   └── package.json
     └── skill-b/
         ├── SKILL.md
-        └── version.txt
+        └── package.json
 ```
 
 ## Requirements
