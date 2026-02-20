@@ -30,7 +30,7 @@ When generation completes, output in the following format:
 **Generation Info:**
 - Prompt: Shiba Inu under cherry blossom tree, warm sunlight, healing art style
 - Size: 2304 × 1728
-- Save Path: /generated_images/shiba_sakura.png
+- Save Path: /generated_images/[Generated Image] **important**
 ```
 
 ### Notes
