@@ -68,6 +68,12 @@ Example: `scripts/generate_image.py` uses Volcengine API with IAM v4 signature a
 ```bash
 # Install a specific skill
 npx skills add wvlvik/toy-skills --skill <skill-name>
+
+# Available skills:
+# - commit-review      : WeChat Mini Program code review
+# - example-skill      : Skill template
+# - jimeng-api-image-gen : AI image generation (v1.0.2)
+# - jimeng-api-video-gen : AI video generation (v1.0.0)
 ```
 
 ### Development
@@ -99,6 +105,15 @@ git commit -m "Update <skill-name> skill"
 git push origin main
 ```
 
+## Available Skills
+
+| Skill | Description | Version |
+|-------|-------------|---------|
+| `commit-review` | WeChat Mini Program native development code review | - |
+| `example-skill` | Template skill demonstrating structure and format | - |
+| `jimeng-api-image-gen` | AI image generation using Volcengine Jimeng API 4.0 | v1.0.2 |
+| `jimeng-api-video-gen` | AI video generation using Volcengine Jimeng Video 3.0 Pro | v1.0.0 |
+
 ## Key Files
 
 - `README.md` - Project overview and installation
@@ -112,8 +127,10 @@ git push origin main
 
 Skills use environment variables for configuration:
 - `VOLC_ACCESSKEY` / `VOLC_SECRETKEY` - Volcengine API credentials
-- `JIMENG_API_URL` - API endpoint
-- `JIMENG_API_TIMEOUT` - Request timeout
+- `JIMENG_API_URL` - Image API endpoint
+- `JIMENG_API_TIMEOUT` - Image API request timeout
+- `JIMENG_VIDEO_API_URL` - Video API endpoint
+- `JIMENG_VIDEO_API_TIMEOUT` - Video API request timeout
 
 ### Error Handling
 
