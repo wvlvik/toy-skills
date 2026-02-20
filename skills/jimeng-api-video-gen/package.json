@@ -1,15 +1,16 @@
 {
-  "name": "jimeng-api-image-gen",
-  "version": "1.0.1",
-  "description": "AI image generation skill using Volcengine Jimeng API 4.0",
+  "name": "jimeng-api-video-gen",
+  "version": "1.0.0",
+  "description": "AI video generation skill using Volcengine Jimeng Video API 3.0 Pro",
   "author": "workspace",
   "license": "MIT",
   "keywords": [
     "jimeng",
-    "ai-image",
-    "image-generation",
+    "ai-video",
+    "video-generation",
     "volcengine",
-    "seedream",
+    "text-to-video",
+    "image-to-video",
     "cursor-rules",
     "opencode-skill"
   ],
