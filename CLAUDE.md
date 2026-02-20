@@ -29,7 +29,7 @@ skills/
 
 ### Creating a New Skill
 
-1. Create directory: `skills/<skill-name>/`
+1. Create directory: `.agents/skills/[skill-name]/`
 2. Create `SKILL.md` with YAML frontmatter:
    ```yaml
    ---
@@ -86,7 +86,7 @@ ls -la skills/<skill-name>/
 vim skills/<skill-name>/SKILL.md
 
 # Test Python scripts
-python skills/<skill-name>/scripts/<script-name>.py --help
+python3 skills/<skill-name>/scripts/<script-name>.py --help
 ```
 
 ### Git Workflow
@@ -122,15 +122,6 @@ git push origin main
 - `skills/*/scripts/` - Automation scripts (Python)
 
 ## Important Patterns
-
-### Environment Variables
-
-Skills use environment variables for configuration:
-- `VOLC_ACCESSKEY` / `VOLC_SECRETKEY` - Volcengine API credentials
-- `JIMENG_API_URL` - Image API endpoint
-- `JIMENG_API_TIMEOUT` - Image API request timeout
-- `JIMENG_VIDEO_API_URL` - Video API endpoint
-- `JIMENG_VIDEO_API_TIMEOUT` - Video API request timeout
 
 ### Error Handling
 
