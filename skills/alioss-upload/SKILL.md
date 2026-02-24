@@ -75,6 +75,53 @@ scripts/upload.py photo.jpg --bucket my-bucket --image
 # Output: https://my-bucket.oss-cn-hangzhou.aliyuncs.com/photo.jpg
 ```
 
+### Interactive Input (No Paths Required)
+
+When no file paths are provided via command line, the script will prompt for input:
+
+```bash
+# Run without paths - will prompt interactively
+scripts/upload.py --images --bucket my-bucket
+
+# Interactive prompt example:
+# Enter file paths to upload (one per line, empty line to finish):
+#   Supported formats:
+#     - Plain path: /Users/me/photo.jpg
+#     - Path with spaces: /Users/me/My Photos/photo.jpg
+#     - file:// URL: file:///Users/me/photo.jpg
+#     - Home directory: ~/Desktop/photo.png
+#   Or paste multiple paths (one per line):
+# --------------------------------------------------
+# /Users/me/Desktop/photo1.jpg
+# /Users/me/My Photos/photo2.png
+# ~/Downloads/screenshot.png
+# file:///Users/me/Desktop/live-2746.png
+#
+# (press Enter on empty line to start upload)
+```
+
+**Supported Input Formats:**
+- Plain paths: `/Users/me/photo.jpg`
+- Paths with spaces: `/Users/me/My Photos/photo.jpg`
+- file:// URLs: `file:///Users/me/photo.jpg` (automatically converted to local path)
+- Home directory: `~/Desktop/photo.png` (tilde expansion)
+- Environment variables: `$HOME/Desktop/photo.png` (expanded automatically)
+
+**Path Validation:**
+- Invalid paths are automatically filtered out with warnings
+- Duplicates are removed
+- Paths are normalized and resolved to absolute paths
+
+### Stdin Pipe Input
+
+```bash
+# Pipe file paths via stdin
+echo "/path/to/file1.jpg /path/to/file2.png" | scripts/upload.py --images --bucket my-bucket
+
+# Or from a file containing paths
+cat file_list.txt | scripts/upload.py --images --bucket my-bucket
+```
+
 ### Upload Multiple Images (推荐)
 
 批量上传多张图片，自动处理中文/特殊字符文件名:

@@ -14,6 +14,7 @@ import mimetypes
 import re
 import hashlib
 import time
+import select
 from pathlib import Path
 from pathlib import Path
 from typing import Optional, Callable, Dict, Any, List
@@ -22,9 +23,12 @@ try:
     import alibabacloud_oss_v2 as oss
     from alibabacloud_oss_v2 import exceptions
 except ImportError:
-    print("Error: alibabacloud-oss-v2 not installed.", file=sys.stderr)
-    print("Install with: pip install alibabacloud-oss-v2", file=sys.stderr)
-    sys.exit(1)
+    print("Installing alibabacloud-oss-v2...")
+    import subprocess
+    import sys
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "--quiet", "--break-system-packages", "alibabacloud-oss-v2"])
+    import alibabacloud_oss_v2 as oss
+    from alibabacloud_oss_v2 import exceptions
 
 
 class OSSUploader:
@@ -519,6 +523,173 @@ def format_size(size_bytes: int) -> str:
         size_bytes = size_bytes / 1024
     return f"{size_bytes:.1f} TB"
 
+def parse_path_input(line: str) -> List[str]:
+    """
+    Parse a line of input and extract valid file paths.
+    Supports:
+    - Plain file paths (with spaces)
+    - file:// URLs
+    - Multiple space-separated paths (when paths don't contain spaces)
+    - Quoted paths
+    """
+    from urllib.parse import unquote, urlparse
+    
+    paths = []
+    line = line.strip()
+    
+    if not line:
+        return paths
+    
+    # Handle file:// URLs
+    if 'file://' in line:
+        # Extract file:// URLs
+        file_url_pattern = re.compile(r'file://([^\s]+)')
+        matches = file_url_pattern.findall(line)
+        for match in matches:
+            try:
+                parsed = urlparse(f'file://{match}')
+                path = unquote(parsed.path)
+                # On macOS, file URLs start with /, on Windows they might not
+                if path and not Path(path).is_absolute() and sys.platform == 'win32':
+                    path = path.lstrip('/')
+                paths.append(path)
+            except Exception:
+                pass
+        # Remove file:// URLs from line for further processing
+        line = file_url_pattern.sub('', line).strip()
+    
+    if not line:
+        return paths
+    
+    # Check if line looks like a single path (exists or contains path separators)
+    test_path = Path(line)
+    if test_path.exists() or '/' in line or '\\' in line:
+        # Treat entire line as a single path
+        paths.append(line)
+        return paths
+    
+    # Try to split by common delimiters but validate each part
+    # First, try space-separated paths
+    parts = line.split()
+    if len(parts) > 1:
+        valid_parts = []
+        for part in parts:
+            # Check if this looks like a path
+            if Path(part).exists() or '/' in part or '\\' in part or part.startswith('~'):
+                valid_parts.append(part)
+        
+        # If all parts look like paths, use them
+        if valid_parts and len(valid_parts) == len(parts):
+            paths.extend(valid_parts)
+            return paths
+        # If some parts are valid paths, still use them
+        elif valid_parts:
+            paths.extend(valid_parts)
+            return paths
+    
+    # Fallback: treat the entire line as a single path
+    paths.append(line)
+    return paths
+
+
+def validate_and_expand_path(path_str: str) -> Optional[str]:
+    """
+    Validate and expand a path string.
+    Returns the expanded absolute path if valid, None otherwise.
+    """
+    try:
+        # Expand ~ to home directory
+        expanded = os.path.expanduser(path_str)
+        # Expand environment variables
+        expanded = os.path.expandvars(expanded)
+        # Normalize the path
+        expanded = os.path.normpath(expanded)
+        
+        path = Path(expanded)
+        if path.exists() and path.is_file():
+            return str(path.resolve())
+        return None
+    except Exception:
+        return None
+
+
+def get_paths_from_input() -> List[str]:
+    """
+    Get file paths from user input.
+    Priority: stdin pipe > interactive prompt
+    
+    Supports:
+    - Plain file paths (including paths with spaces)
+    - file:// URLs
+    - Multiple paths (one per line or space-separated)
+    - Tilde expansion (~)
+    - Environment variables in paths
+    """
+    raw_paths = []
+    
+    # Check if data is available on stdin (piped input)
+    if not sys.stdin.isatty():
+        try:
+            # Set stdin to non-blocking mode for quick check
+            if select.select([sys.stdin], [], [], 0.1)[0]:
+                for line in sys.stdin:
+                    line = line.strip()
+                    if line:
+                        raw_paths.extend(parse_path_input(line))
+        except Exception:
+            pass
+    
+    # If no stdin input, prompt user interactively
+    if not raw_paths:
+        print("\nEnter file paths to upload (one per line, empty line to finish):")
+        print("  Supported formats:")
+        print("    - Plain path: /Users/me/photo.jpg")
+        print("    - Path with spaces: /Users/me/My Photos/photo.jpg")
+        print("    - file:// URL: file:///Users/me/photo.jpg")
+        print("    - Home directory: ~/Desktop/photo.png")
+        print("  Or paste multiple paths (one per line):")
+        print("-" * 50)
+        
+        try:
+            while True:
+                try:
+                    line = input()
+                    if not line.strip():
+                        break
+                    raw_paths.extend(parse_path_input(line))
+                except EOFError:
+                    break
+        except KeyboardInterrupt:
+            print("\n\nInput cancelled.")
+            return []
+    
+    # Validate and expand paths
+    valid_paths = []
+    invalid_paths = []
+    
+    # Remove duplicates while preserving order
+    seen = set()
+    unique_raw = []
+    for p in raw_paths:
+        if p not in seen:
+            seen.add(p)
+            unique_raw.append(p)
+    
+    for raw_path in unique_raw:
+        expanded = validate_and_expand_path(raw_path)
+        if expanded:
+            if expanded not in valid_paths:  # Avoid duplicates after expansion
+                valid_paths.append(expanded)
+        else:
+            invalid_paths.append(raw_path)
+    
+    # Report invalid paths
+    if invalid_paths:
+        print("\nWarning: The following paths were not found or are not files:", file=sys.stderr)
+        for p in invalid_paths:
+            print(f"  - {p}", file=sys.stderr)
+    
+    return valid_paths
 
 def main():
     parser = argparse.ArgumentParser(
@@ -551,8 +722,8 @@ Examples:
     parser.add_argument(
         "--region",
         "-r",
-        default="cn-hangzhou",
-        help="OSS region (default: cn-hangzhou)",
+        default=None,
+        help="OSS region (default: from OSS_REGION env or cn-hangzhou)",
     )
     # Upload modes
     mode_group = parser.add_mutually_exclusive_group()
@@ -605,11 +776,13 @@ Examples:
     parser.add_argument("--json", action="store_true", help="Output as JSON")
     args = parser.parse_args()
 
-    # Validate paths
+    # Validate paths - if not provided, try to get from user input
     if not args.paths:
-        print("Error: No paths specified", file=sys.stderr)
-        parser.print_help()
-        sys.exit(1)
+        args.paths = get_paths_from_input()
+        if not args.paths:
+            print("Error: No paths specified", file=sys.stderr)
+            parser.print_help()
+            sys.exit(1)
 
     # For --images mode, all paths should be validated
     if args.images:
@@ -625,7 +798,9 @@ Examples:
             sys.exit(1)
 
     try:
-        uploader = OSSUploader(region=args.region, bucket=args.bucket)
+        # Use region from args, env var, or default
+        region = args.region or os.environ.get("OSS_REGION", "cn-hangzhou")
+        uploader = OSSUploader(region=region, bucket=args.bucket)
         if args.images:
             # Multi-image upload mode
             key_prefix = args.prefix or "statics/i/img"
