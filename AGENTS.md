@@ -31,6 +31,7 @@ Once installed, skills will be automatically available in supported agents.
 | `example-skill` | Template skill demonstrating structure and format | - |
 | `jimeng-api-image-gen` | AI image generation using Volcengine Jimeng API 4.0 | v1.0.2 |
 | `jimeng-api-video-gen` | AI video generation using Volcengine Jimeng Video 3.0 Pro | v1.0.0 |
+| `oss-upload` | Upload files and directories to Alibaba Cloud OSS | v1.0.0 |
 
 ## Skill Development
 
@@ -92,6 +93,7 @@ toy-skills/
 ├── .agents/skills/         # Development source
 │   ├── jimeng-api-image-gen/
 │   ├── jimeng-api-video-gen/
+│   ├── oss-upload/
 │   └── skill-release/      # Release automation tool
 ├── skills/                 # Release destination
 │   ├── commit-review/
