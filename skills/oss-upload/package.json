@@ -1,0 +1,24 @@
+{
+  "name": "oss-upload",
+  "version": "1.0.0",
+  "description": "Upload files and directories to Alibaba Cloud OSS using Python SDK v2",
+  "author": "workspace",
+  "license": "MIT",
+  "keywords": [
+    "oss",
+    "alibaba-cloud",
+    "upload",
+    "file-upload",
+    "storage",
+    "cursor-rules",
+    "opencode-skill"
+  ],
+  "main": "index.js",
+  "files": [
+    ".antigravityrules",
+    ".cursorrules",
+    ".opencode-rules",
+    "README.md",
+    "SKILL.md"
+  ]
+}
