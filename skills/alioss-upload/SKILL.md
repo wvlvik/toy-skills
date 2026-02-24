@@ -75,6 +75,72 @@ scripts/upload.py photo.jpg --bucket my-bucket --image
 # Output: https://my-bucket.oss-cn-hangzhou.aliyuncs.com/photo.jpg
 ```
 
+### Specify File Paths
+
+When user wants to upload files, ask them to provide file paths in one of these ways:
+
+**1. Direct Path Input (推荐)**
+```
+用户: 上传 /Users/me/Desktop/photo.png 到 statics/i/img
+用户: 上传这张图片到 OSS: /path/to/image.jpg
+```
+
+**2. Multiple Files**
+```
+用户: 上传这些文件: /path/a.png, /path/b.jpg
+用户: 批量上传 /Users/me/Downloads/*.png
+```
+
+**3. Current File in Editor**
+If user mentions "当前文件" or "this file", ask for the file path:
+```
+用户: 上传当前文件
+助手: 请提供文件的完整路径，例如: /Users/me/Desktop/image.png
+```
+
+**4. Drag & Drop Paths**
+If user provides paths from drag-and-drop (common in terminal):
+```
+用户: 上传 /Users/me/Desktop/截图2024-01-01.png
+```
+
+**Note**: This model does not support image input directly. User must provide file paths as text, not attach images.
+
+### Upload from Clipboard (macOS)
+
+使用剪贴板上传文件，无需手动输入路径：
+
+```bash
+# 步骤 1: 在 Finder 中选择文件
+# 步骤 2: 复制文件 (Cmd+C)
+# 步骤 3: 运行上传脚本
+
+# 上传复制的文件为图片
+scripts/upload-clipboard.sh --images
+
+# 自定义前缀
+scripts/upload-clipboard.sh --images --prefix statics/i/img/custom
+
+# 指定 bucket
+scripts/upload-clipboard.sh --images --bucket my-bucket
+```
+
+**支持的剪贴板内容：**
+- Finder 中复制的文件 (Cmd+C)
+- 复制的文件路径文本 (一行一个路径)
+
+**示例输出：**
+```
+Files to upload:
+  - /Users/me/Desktop/screenshot.png
+  - /Users/me/Desktop/photo.jpg
+
+✓ 上传完成: 2/2 张图片
+  Bucket: my-bucket
+  Region: cn-hangzhou
+  Key 前缀: statics/i/img
+```
+
 ### Interactive Input (No Paths Required)
 
 When no file paths are provided via command line, the script will prompt for input:
@@ -155,6 +221,9 @@ scripts/upload.py photo1.jpg "照片.jpg" banner.png --images --bucket my-bucket
 # Upload all files in directory
 scripts/upload.py ./images --prefix assets/images --bucket my-bucket --dir
 
+# Upload with sanitized filenames (auto-rename Chinese/special chars)
+scripts/upload.py ./photos --prefix photos --bucket my-bucket --dir --sanitize
+
 # Upload only JPG files
 scripts/upload.py ./photos --prefix photos --bucket my-bucket --dir --pattern "*.jpg"
 
@@ -162,6 +231,10 @@ scripts/upload.py ./photos --prefix photos --bucket my-bucket --dir --pattern "*
 scripts/upload.py ./assets --prefix assets --bucket my-bucket --dir --no-recursive
 ```
 
+**特性 (with --sanitize):**
+- 中文/特殊字符文件名自动重命名为安全的 MD5 哈希名
+- 保持原始文件扩展名
+- 保持目录结构
 ### Upload Large File (Resumable)
 
 ```bash
@@ -194,6 +267,7 @@ Options:
   --storage-class       Storage class: Standard, IA, Archive
   --pattern             File pattern for directory upload (default: *)
   --no-recursive        Don't include subdirectories
+  --sanitize, -s        Sanitize filenames with Chinese/special chars (for --dir)
   --part-size           Part size in MB for large files (default: 6)
   --parallel            Parallel uploads for large files (default: 3)
   --no-checkpoint       Disable resumable upload

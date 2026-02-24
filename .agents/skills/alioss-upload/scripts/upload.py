@@ -286,6 +286,7 @@ class OSSUploader:
         bucket: Optional[str] = None,
         pattern: str = "*",
         recursive: bool = True,
+        sanitize_filenames: bool = False,
         quiet: bool = False,
     ) -> Dict[str, Any]:
         """
@@ -297,6 +298,7 @@ class OSSUploader:
             bucket: Target bucket
             pattern: File pattern to match (e.g., "*.jpg")
             recursive: Include subdirectories
+            sanitize_filenames: Sanitize filenames with Chinese/special chars to safe MD5 names
             quiet: Suppress progress output
 
         Returns:
@@ -335,12 +337,29 @@ class OSSUploader:
 
         for file_path in files:
             rel_path = file_path.relative_to(dir_path)
-            oss_key = f"{oss_prefix}/{rel_path}".replace("\\", "/")
+            original_name = file_path.name
+            
+            # Sanitize filename if requested
+            if sanitize_filenames:
+                safe_name = self._sanitize_filename(original_name)
+                # Rebuild relative path with sanitized filename
+                rel_path_parts = list(rel_path.parts)
+                if rel_path_parts:
+                    rel_path_parts[-1] = safe_name
+                    sanitized_rel_path = "/".join(rel_path_parts)
+                else:
+                    sanitized_rel_path = safe_name
+                oss_key = f"{oss_prefix}/{sanitized_rel_path}"
+            else:
+                safe_name = original_name
+                oss_key = f"{oss_prefix}/{rel_path}".replace("\\", "/")
 
             if not quiet:
-                print(
-                    f"\n[{success_count + fail_count + 1}/{len(files)}] {file_path.name}"
-                )
+                status = f"[{success_count + fail_count + 1}/{len(files)}]"
+                if sanitize_filenames and safe_name != original_name:
+                    print(f"{status} {original_name} -> {safe_name}")
+                else:
+                    print(f"\n{status} {original_name}")
 
             result = self.upload_file(
                 str(file_path),
@@ -348,6 +367,12 @@ class OSSUploader:
                 bucket=bucket,
                 quiet=quiet,
             )
+
+            # Add filename info for directory upload
+            result["original_name"] = original_name
+            if sanitize_filenames:
+                result["safe_name"] = safe_name
+                result["was_renamed"] = safe_name != original_name
 
             results.append(result)
 
@@ -365,9 +390,9 @@ class OSSUploader:
             "success_count": success_count,
             "fail_count": fail_count,
             "total_size": total_size,
+            "sanitize_filenames": sanitize_filenames,
             "files": results,
         }
-
     def upload_image(
         self,
         local_path: str,
@@ -755,6 +780,10 @@ Examples:
         "--no-recursive", action="store_true", help="Don't include subdirectories"
     )
     parser.add_argument(
+        "--sanitize", "-s", action="store_true",
+        help="Sanitize filenames with Chinese/special chars to safe MD5 names (for directory upload)"
+    )
+    parser.add_argument(
         "--part-size",
         type=int,
         default=6,
@@ -821,6 +850,7 @@ Examples:
                 args.prefix,
                 pattern=args.pattern,
                 recursive=not args.no_recursive,
+                sanitize_filenames=args.sanitize,
                 quiet=args.quiet,
             )
         elif args.large:
@@ -857,25 +887,50 @@ Examples:
         if args.json:
             print(json.dumps(result, indent=2, ensure_ascii=False))
         elif result.get("success"):
+            # Get actual bucket and region for URL generation
+            actual_bucket = result.get('bucket', uploader.bucket)
+            actual_region = uploader.region
             if "images" in result:
                 # Multi-image upload summary
                 print(f"\n✓ 上传完成: {result['success_count']}/{result['total_images']} 张图片")
+                print(f"  Bucket: {actual_bucket}")
+                print(f"  Region: {actual_region}")
                 print(f"  Key 前缀: {result['key_prefix']}")
                 print("\n上传结果:")
                 for img in result["images"]:
                     if img.get("success"):
                         key = img.get("key", "")
                         name = img.get("original_name", "")
-                        print(f"  - {key} ({name})")
+                        url = f"https://{actual_bucket}.oss-{actual_region}.aliyuncs.com/{key}"
+                        print(f"  - {url}")
+                        print(f"    Key: {key} ({name})")
                     else:
                         print(f"  ✗ {img.get('original_name', 'unknown')}: {img.get('error', 'unknown error')}")
             elif "files" in result:
                 # Directory upload summary
                 print(
-                    f"\n✓ Upload complete: {result['success_count']}/{result['total_files']} files"
+                    f"\n✓ 上传完成: {result['success_count']}/{result['total_files']} 个文件"
                 )
+                print(f"  Bucket: {actual_bucket}")
+                print(f"  Region: {actual_region}")
                 print(f"  Total size: {format_size(result['total_size'])}")
                 print(f"  Prefix: {result['prefix']}")
+                if result.get('sanitize_filenames'):
+                    print(f"  文件名处理: 已清理特殊字符")
+                print("\n上传结果:")
+                for f in result["files"]:
+                    if f.get("success"):
+                        key = f.get("key", "")
+                        original_name = f.get("original_name", "")
+                        url = f"https://{actual_bucket}.oss-{actual_region}.aliyuncs.com/{key}"
+                        if f.get("was_renamed"):
+                            print(f"  - {url}")
+                            print(f"    Key: {key} ({original_name} -> {f.get('safe_name', '')})")
+                        else:
+                            print(f"  - {url}")
+                            print(f"    Key: {key}")
+                    else:
+                        print(f"  ✗ {f.get('original_name', 'unknown')}: {f.get('error', {}).get('message', 'unknown error')}")
             else:
                 # Single file
                 print(f"\n✓ 上传完成!")
