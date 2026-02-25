@@ -323,7 +323,11 @@ class OSSUploader:
         else:
             files = list(dir_path.glob(pattern))
 
-        files = [f for f in files if f.is_file()]
+        # Filter out hidden files and files in hidden directories
+        files = [
+            f for f in files 
+            if f.is_file() and not any(part.startswith('.') for part in f.relative_to(dir_path).parts)
+        ]
 
         if not files:
             return {
@@ -829,6 +833,21 @@ Examples:
     try:
         # Use region from args, env var, or default
         region = args.region or os.environ.get("OSS_REGION", "cn-hangzhou")
+        
+        # Debug: Check environment variables
+        env_check = {
+            "OSS_ACCESS_KEY_ID": "✓ set" if os.environ.get("OSS_ACCESS_KEY_ID") else "✗ NOT SET",
+            "OSS_ACCESS_KEY_SECRET": "✓ set" if os.environ.get("OSS_ACCESS_KEY_SECRET") else "✗ NOT SET",
+            "OSS_REGION": os.environ.get("OSS_REGION", "✗ NOT SET (will use default: cn-hangzhou)"),
+            "OSS_BUCKET": os.environ.get("OSS_BUCKET", "✗ NOT SET (must use --bucket)"),
+        }
+        
+        if not args.quiet:
+            print("\nEnvironment variables check:")
+            for key, status in env_check.items():
+                print(f"  {key}: {status}")
+            print()
+        
         uploader = OSSUploader(region=region, bucket=args.bucket)
         if args.images:
             # Multi-image upload mode
