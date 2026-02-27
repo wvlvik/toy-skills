@@ -95,6 +95,24 @@ class OSSUploader:
         """Generate the public OSS URL for an object"""
         return f"https://{bucket}.oss-{self.region}.aliyuncs.com/{key}"
 
+    def _get_display_url(self, bucket: str, key: str, domain: Optional[str] = None) -> str:
+        """
+        Generate URL for display to user.
+        Uses custom domain if provided, otherwise falls back to default OSS URL.
+        
+        Args:
+            bucket: OSS bucket name
+            key: Object key
+            domain: Optional custom domain (e.g., "cdn.example.com")
+        
+        Returns:
+            Full URL string
+        """
+        if domain:
+            # Remove protocol prefix if present
+            domain = domain.replace("https://", "").replace("http://", "")
+            return f"https://{domain}/{key}"
+        return self._get_oss_url(bucket, key)
     def upload_file(
         self,
         local_path: str,
@@ -749,6 +767,12 @@ Examples:
     parser.add_argument("--key", "-k", help="OSS object key (default: filename)")
     parser.add_argument("--prefix", "-p", help="OSS key prefix (default for images: statics/i/img)")
     parser.add_argument(
+        "--domain",
+        "-D",
+        default=None,
+        help="Custom domain for display URLs (e.g., cdn.example.com). Also supports OSS_DOMAIN env var.",
+    )
+    parser.add_argument(
         "--region",
         "-r",
         default=None,
@@ -909,6 +933,8 @@ Examples:
             # Get actual bucket and region for URL generation
             actual_bucket = result.get('bucket', uploader.bucket)
             actual_region = uploader.region
+            # Get custom domain if specified
+            display_domain = args.domain or os.environ.get("OSS_DOMAIN")
             if "images" in result:
                 # Multi-image upload summary
                 print(f"\n✓ 上传完成: {result['success_count']}/{result['total_images']} 张图片")
@@ -920,8 +946,8 @@ Examples:
                     if img.get("success"):
                         key = img.get("key", "")
                         name = img.get("original_name", "")
-                        url = f"https://{actual_bucket}.oss-{actual_region}.aliyuncs.com/{key}"
-                        print(f"  - {url}")
+                        display_url = uploader._get_display_url(actual_bucket, key, display_domain)
+                        print(f"  - {display_url}")
                         print(f"    Key: {key} ({name})")
                     else:
                         print(f"  ✗ {img.get('original_name', 'unknown')}: {img.get('error', 'unknown error')}")
@@ -941,19 +967,25 @@ Examples:
                     if f.get("success"):
                         key = f.get("key", "")
                         original_name = f.get("original_name", "")
-                        url = f"https://{actual_bucket}.oss-{actual_region}.aliyuncs.com/{key}"
+                        display_url = uploader._get_display_url(actual_bucket, key, display_domain)
                         if f.get("was_renamed"):
-                            print(f"  - {url}")
+                            print(f"  - {display_url}")
                             print(f"    Key: {key} ({original_name} -> {f.get('safe_name', '')})")
                         else:
-                            print(f"  - {url}")
+                            print(f"  - {display_url}")
                             print(f"    Key: {key}")
                     else:
                         print(f"  ✗ {f.get('original_name', 'unknown')}: {f.get('error', {}).get('message', 'unknown error')}")
             else:
                 # Single file
+                # Use display URL with custom domain support
+                display_url = uploader._get_display_url(
+                    actual_bucket, 
+                    result.get('key', ''), 
+                    display_domain
+                )
                 print(f"\n✓ 上传完成!")
-                print(f"  URL: {result['url']}")
+                print(f"  URL: {display_url}")
                 key = result.get('key', '')
                 safe_name = result.get('safe_name', '')
                 if safe_name:

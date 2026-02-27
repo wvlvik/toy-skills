@@ -17,6 +17,7 @@ export OSS_ACCESS_KEY_ID="your_access_key_id"
 export OSS_ACCESS_KEY_SECRET="your_access_key_secret"
 export OSS_REGION="cn-hangzhou"           # 可选, 默认: cn-hangzhou
 export OSS_BUCKET="your-bucket-name"      # 可选, 也可通过 --bucket 参数传递
+export OSS_DOMAIN="cdn.example.com"       # 可选, 自定义显示域名 (CDN 加速域名等)
 
 # 使环境变量生效 (二选一)
 source ~/.zshrc  # 或 source ~/.bashrc
@@ -263,6 +264,7 @@ Upload Modes (mutually exclusive):
 Options:
   --key, -k             OSS object key (default: filename)
   --region, -r          OSS region (default: cn-hangzhou)
+  --domain, -D          Custom domain for display URLs (e.g., cdn.example.com)
   --acl                 Object ACL: private, public-read, public-read-write
   --storage-class       Storage class: Standard, IA, Archive
   --pattern             File pattern for directory upload (default: *)
@@ -281,6 +283,7 @@ Environment Variables:
   OSS_ACCESS_KEY_SECRET   Access Key Secret (required)
   OSS_REGION              Region (default: cn-hangzhou)
   OSS_BUCKET              Default bucket name
+  OSS_DOMAIN              Custom domain for display URLs (e.g., cdn.example.com)
   OSS_CHECKPOINT_DIR      Checkpoint directory for resumable uploads
 ```
 
@@ -336,6 +339,28 @@ Example:
 ```
 https://my-bucket.oss-cn-hangzhou.aliyuncs.com/images/photo.jpg
 ```
+
+### Custom Domain (CDN)
+
+If you have a custom domain or CDN bound to your OSS bucket, use `--domain` to display custom URLs:
+
+```bash
+# Using command-line option
+scripts/upload.py photo.jpg --bucket my-bucket --image --domain cdn.example.com
+
+# Or set environment variable
+export OSS_DOMAIN="cdn.example.com"
+scripts/upload.py photo.jpg --bucket my-bucket --image
+```
+
+Output will show:
+```
+✓ 上传完成!
+  URL: https://cdn.example.com/statics/i/img/photo.jpg
+  Key: statics/i/img/photo.jpg
+```
+
+**Note**: The custom domain only affects the displayed URL, not the actual upload process.
 
 ## Storage Classes
 

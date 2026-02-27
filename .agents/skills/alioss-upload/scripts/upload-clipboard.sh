@@ -8,8 +8,8 @@
 # Options:
 #   --prefix, -p    OSS key prefix (default: statics/i/img)
 #   --bucket, -b    OSS bucket name (or set OSS_BUCKET env var)
+#   --domain, -D    Custom domain for display URLs (or set OSS_DOMAIN env var)
 #   --images, -i    Upload as images with public-read ACL
-#
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 UPLOAD_PY="$SCRIPT_DIR/upload.py"
@@ -17,8 +17,8 @@ UPLOAD_PY="$SCRIPT_DIR/upload.py"
 # Default values
 PREFIX="statics/i/img"
 BUCKET="${OSS_BUCKET:-}"
+DOMAIN="${OSS_DOMAIN:-}"
 MODE=""
-
 # Parse arguments
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -28,6 +28,10 @@ while [[ $# -gt 0 ]]; do
             ;;
         --bucket|-b)
             BUCKET="$2"
+            shift 2
+            ;;
+        --domain|-D)
+            DOMAIN="$2"
             shift 2
             ;;
         --images|-i)
@@ -46,6 +50,7 @@ while [[ $# -gt 0 ]]; do
             echo "Options:"
             echo "  --prefix, -p    OSS key prefix (default: statics/i/img)"
             echo "  --bucket, -b    OSS bucket name"
+            echo "  --domain, -D    Custom domain for display URLs"
             echo "  --images, -i    Upload as images with public-read ACL"
             echo "  --help, -h      Show this help"
             exit 0
@@ -136,6 +141,10 @@ CMD="python3 \"$UPLOAD_PY\" $FILE_PATHS --prefix \"$PREFIX\""
 
 if [[ -n "$BUCKET" ]]; then
     CMD="$CMD --bucket \"$BUCKET\""
+fi
+
+if [[ -n "$DOMAIN" ]]; then
+    CMD="$CMD --domain \"$DOMAIN\""
 fi
 
 if [[ -n "$MODE" ]]; then
