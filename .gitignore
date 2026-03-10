@@ -27,3 +27,6 @@ logs/
 # Exported conversation files
 pdf.txt
 markdonw.txt
+
+# Exported conversation files (with timestamp pattern)
+*.txt
