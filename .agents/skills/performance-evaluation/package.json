@@ -1,0 +1,27 @@
+{
+  "name": "performance-evaluation",
+  "version": "1.0.0",
+  "description": "团队绩效评分自动化处理，整合TAPD缺陷查询、Excel处理和智能体团队协作",
+  "author": "workspace",
+  "license": "MIT",
+  "keywords": [
+    "performance",
+    "evaluation",
+    "tapd",
+    "excel",
+    "coefficient",
+    "cursor-rules",
+    "opencode-skill"
+  ],
+  "main": "index.js",
+  "files": [
+    ".cursorrules",
+    "README.md",
+    "SKILL.md",
+    "scripts/process_performance.py",
+    "scripts/tapd_helper.py",
+    "scripts/requirements.txt",
+    "references/excel_structure.md",
+    "references/coefficient_rules.md"
+  ]
+}

@@ -28,7 +28,7 @@ scripts/release_skill.py --skill jimeng-api-image-gen
 
 ## Version Management
 
-Version stored in `version.txt` at skill root:
+Version is stored in `package.json` at skill root:
 - First release: `1.0.0`
 - Updates: patch bump (`1.2.3` → `1.2.4`)
 - Semver format: `major.minor.patch`
@@ -37,6 +37,8 @@ Version stored in `version.txt` at skill root:
 
 The following are excluded from release:
 - `skill-release` itself (this skill)
+- `performance-evaluation` (development in progress)
+- `tapd-idle` (development in progress)
 - Skills without SKILL.md
 
 ## Project Structure
@@ -51,10 +53,10 @@ project/
 └── skills/             # Release destination
     ├── skill-a/
     │   ├── SKILL.md
-    │   └── version.txt
+    │   └── package.json
     └── skill-b/
         ├── SKILL.md
-        └── version.txt
+        └── package.json
 ```
 
 ## Requirements
