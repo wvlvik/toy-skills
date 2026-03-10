@@ -30,3 +30,6 @@ markdonw.txt
 
 # Exported conversation files (with timestamp pattern)
 *.txt
+
+# Data directories
+bech/
