@@ -94,115 +94,6 @@ import os
 from tapd_client import TAPDClient
 
 
-# ============ 字段中文映射 ============
-
-# 缺陷严重程度
-BUG_SEVERITY_MAP = {
-    "fatal": "致命",
-    "serious": "严重",
-    "normal": "一般",
-    "prompt": "提示",
-    "advice": "建议"
-}
-
-# 缺陷状态（根据 TAPD 工作流实际映射）
-BUG_STATUS_MAP = {
-    "unconfirmed": "缺陷池",
-    "in_progress": "修复中",
-    "resolved": "待测试",
-    "verified": "测试中",
-    "closed": "完成",
-    "rejected": "拒绝",
-    "suspended": "关闭"
-}
-
-# 缺陷优先级
-BUG_PRIORITY_MAP = {
-    "urgent": "紧急",
-    "high": "高",
-    "medium": "中",
-    "low": "低",
-    "insignificant": "不重要"
-}
-
-# 需求优先级
-STORY_PRIORITY_MAP = {
-    "High": "高",
-    "Middle": "中",
-    "Low": "低",
-    "Nice To Have": "期望"
-}
-
-# 需求状态
-STORY_STATUS_MAP = {
-    "open": "草稿",
-    "progressing": "实现中",
-    "done": "已完成",
-    "closed": "关闭"
-}
-
-# 任务状态
-TASK_STATUS_MAP = {
-    "open": "未开始",
-    "progressing": "进行中",
-    "done": "已完成"
-}
-
-
-def translate_bug_fields(bug):
-    """翻译缺陷字段为中文"""
-    if not bug:
-        return bug
-
-    translated = dict(bug)
-
-    # 严重程度
-    if "severity" in translated:
-        translated["severity_cn"] = BUG_SEVERITY_MAP.get(translated["severity"], translated["severity"])
-
-    # 状态
-    if "status" in translated:
-        translated["status_cn"] = BUG_STATUS_MAP.get(translated["status"], translated["status"])
-
-    # 优先级
-    if "priority" in translated:
-        translated["priority_cn"] = BUG_PRIORITY_MAP.get(translated["priority"], translated["priority"])
-
-    return translated
-
-
-def translate_story_fields(story):
-    """翻译需求字段为中文"""
-    if not story:
-        return story
-
-    translated = dict(story)
-
-    # 优先级
-    if "priority" in translated:
-        translated["priority_cn"] = STORY_PRIORITY_MAP.get(translated["priority"], translated["priority"])
-
-    # 状态
-    if "status" in translated:
-        translated["status_cn"] = STORY_STATUS_MAP.get(translated["status"], translated["status"])
-
-    return translated
-
-
-def translate_task_fields(task):
-    """翻译任务字段为中文"""
-    if not task:
-        return task
-
-    translated = dict(task)
-
-    # 状态
-    if "status" in translated:
-        translated["status_cn"] = TASK_STATUS_MAP.get(translated["status"], translated["status"])
-
-    return translated
-
-
 def get_tapd_base_url():
     """获取 TAPD 基础 URL"""
     from tapd_client import get_env_check_message
@@ -348,8 +239,6 @@ def cmd_get_stories_or_tasks(args):
         data["priority_label"] = args.priority_label
     if args.iteration_id:
         data["iteration_id"] = args.iteration_id
-    if args.created:
-        data["created"] = args.created
     if args.limit:
         data["limit"] = args.limit
     if args.page:
@@ -499,10 +388,6 @@ def cmd_update_story_or_task(args):
         data["owner"] = args.owner
     if args.developer:
         data["developer"] = args.developer
-    if args.custom_field_one:
-        data["custom_field_one"] = args.custom_field_one
-    if args.custom_field_five:
-        data["custom_field_five"] = args.custom_field_five
 
     result = client.create_or_update_story(data)
 
@@ -564,16 +449,7 @@ def cmd_get_bug(args):
         data["id"] = args.id
     if args.title:
         data["title"] = args.title
-    # 状态别名处理
-    if args.closed:
-        data["status"] = "closed|rejected|suspended"
-    elif args.open:
-        # 未结束状态（不包括已关闭、被拒绝、挂起、延期）
-        data["status"] = "new|open|in_progress|unconfirmed|reopened|assigned|verified|resolved"
-    elif args.all_open:
-        # 所有未结束状态（包括挂起和延期）
-        data["status"] = "new|open|in_progress|unconfirmed|reopened|assigned|suspended|deferred"
-    elif args.status:
+    if args.status:
         data["status"] = args.status
     if args.v_status:
         data["v_status"] = args.v_status
@@ -582,15 +458,7 @@ def cmd_get_bug(args):
     if args.severity:
         data["severity"] = args.severity
     if args.owner:
-        # TAPD API 使用 current_owner 查询处理人
-        data["current_owner"] = args.owner
-    if args.developer:
-        # TAPD API 使用 de 查询开发人员
-        data["de"] = args.developer
-    if args.created:
-        data["created"] = args.created
-    if args.version_report:
-        data["version_report"] = args.version_report
+        data["owner"] = args.owner
     if args.limit:
         data["limit"] = args.limit
     if args.page:
@@ -612,19 +480,6 @@ def cmd_get_bug(args):
     fields_param = data.get('fields')
     if isinstance(result, dict) and 'data' in result:
         result['data'] = client.filter_fields(result['data'], fields_param)
-
-    # 排除指定状态
-    if args.exclude_status and isinstance(result, dict) and 'data' in result:
-        exclude_list = args.exclude_status.split("|")
-        result['data'] = [b for b in result['data'] if b.get("Bug", {}).get("status") not in exclude_list]
-        # 更新计数
-        count_result = {"data": {"count": len(result['data'])}}
-
-    # 翻译字段为中文
-    if isinstance(result, dict) and 'data' in result:
-        for item in result['data']:
-            if "Bug" in item:
-                item["Bug"] = translate_bug_fields(item["Bug"])
 
     tapd_base_url = get_tapd_base_url()
 
@@ -721,13 +576,6 @@ def cmd_get_bug_count(args):
         data["title"] = args.title
     if args.status:
         data["status"] = args.status
-    if args.developer:
-        # TAPD API 使用 de 查询开发人员
-        data["de"] = args.developer
-    if args.created:
-        data["created"] = args.created
-    if args.version_report:
-        data["version_report"] = args.version_report
 
     result = client.get_bug_count(data)
     print(json.dumps(result, ensure_ascii=False, indent=2))
@@ -1328,7 +1176,6 @@ def build_parser():
     p.add_argument("--creator", help="创建人")
     p.add_argument("--priority_label", help="优先级")
     p.add_argument("--iteration_id", help="迭代ID")
-    p.add_argument("--created", help="创建时间范围（如 >=2026-02-14 或 2026-02-14~2026-04-15）")
     p.add_argument("--limit", type=int, default=10, help="返回数量限制")
     p.add_argument("--page", type=int, default=1, help="页码")
     p.add_argument("--fields", help="字段列表")
@@ -1356,15 +1203,7 @@ def build_parser():
     p.add_argument("--id", required=True, help="需求/任务ID")
     p.add_argument("--entity_type", choices=["stories", "tasks"], help="类型")
     p.add_argument("--name", help="标题")
-    p.add_argument("--status", help="状态")
     p.add_argument("--description", help="描述")
-
-    p.add_argument("--v_status", help="状态（中文）")
-    p.add_argument("--priority_label", help="优先级")
-    p.add_argument("--owner", help="处理人")
-    p.add_argument("--developer", help="开发人员")
-    p.add_argument("--custom_field_one", help="版本计划")
-    p.add_argument("--custom_field_five", help="开发负责人")
 
     p = subparsers.add_parser("get_story_or_task_count", help="获取需求/任务数量")
     p.add_argument("--workspace_id", required=True, type=int, help="项目ID")
@@ -1386,16 +1225,9 @@ def build_parser():
     p.add_argument("--title", help="标题（模糊匹配）")
     p.add_argument("--status", help="状态")
     p.add_argument("--v_status", help="状态（中文）")
-    p.add_argument("--closed", action="store_true", help="查询结束状态的缺陷（closed|rejected|suspended）")
-    p.add_argument("--open", action="store_true", help="查询活跃未结束状态的缺陷（不包括挂起和延期）")
-    p.add_argument("--all_open", action="store_true", help="查询所有未结束状态的缺陷（包括挂起和延期）")
-    p.add_argument("--exclude_status", help="排除的状态（支持多状态，用竖线分隔，如：closed|suspended）")
     p.add_argument("--priority_label", help="优先级")
     p.add_argument("--severity", help="严重程度")
     p.add_argument("--owner", help="处理人")
-    p.add_argument("--developer", help="开发人员")
-    p.add_argument("--created", help="创建时间（格式：2026-02-01~2026-02-28）")
-    p.add_argument("--version_report", help="发现版本（如：线上版本、测试版本）")
     p.add_argument("--limit", type=int, default=10, help="返回数量限制")
     p.add_argument("--page", type=int, default=1, help="页码")
     p.add_argument("--fields", help="字段列表")
@@ -1429,9 +1261,6 @@ def build_parser():
     p.add_argument("--workspace_id", required=True, type=int, help="项目ID")
     p.add_argument("--title", help="标题")
     p.add_argument("--status", help="状态")
-    p.add_argument("--developer", help="开发人员")
-    p.add_argument("--created", help="创建时间（格式：2026-02-01~2026-02-28）")
-    p.add_argument("--version_report", help="发现版本（如：线上版本、测试版本）")
 
     # ============ 迭代 ============
     p = subparsers.add_parser("get_iterations", help="查询迭代")

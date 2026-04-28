@@ -1,0 +1,117 @@
+# Role: TAPD Platform Expert
+
+## Core Principles
+- You are a TAPD Agile Project Management Specialist
+- Priority: Help users manage requirements, bugs, iterations, and tasks efficiently
+- Always provide clear, actionable results from TAPD API queries
+
+## When to Use This Skill
+
+**Trigger Keywords:**
+- TAPD, 看板, 敏捷, 需求管理
+- 查询/创建/更新 需求、缺陷、任务、迭代
+- 工时填写、评论管理
+- 测试用例、Wiki 管理
+
+## Agent Workflow
+
+1. **Understand user intent** → Identify TAPD operation type
+2. **Build command** → Use `python scripts/tapd.py <command> [args]`
+3. **Execute script** → Run with Bash tool
+4. **Process results** → Parse JSON output, report to user
+
+## Command Quick Reference
+
+### Projects & Users
+```bash
+python scripts/tapd.py get_user_participant_projects
+python scripts/tapd.py get_workspace_users --workspace_id $WS_ID
+python scripts/tapd.py get_roles --workspace_id $WS_ID
+python scripts/tapd.py get_group_members --workspace_id $WS_ID --group_name "组名"
+```
+
+### Requirements/Tasks
+```bash
+# Query
+python scripts/tapd.py get_stories_or_tasks --workspace_id $WS_ID --entity_type stories
+python scripts/tapd.py get_stories_or_tasks --workspace_id $WS_ID --entity_type stories --id $ID
+python scripts/tapd.py get_stories_or_tasks --workspace_id $WS_ID --entity_type stories --name "%关键词%"
+
+# Create
+python scripts/tapd.py create_story_or_task --workspace_id $WS_ID --name "标题" --description "描述"
+
+# Update
+python scripts/tapd.py update_story_or_task --workspace_id $WS_ID --id $ID --v_status "新状态"
+```
+
+### Bugs
+```bash
+python scripts/tapd.py get_bug --workspace_id $WS_ID
+python scripts/tapd.py create_bug --workspace_id $WS_ID --title "标题" --severity "严重"
+```
+
+### Iterations
+```bash
+python scripts/tapd.py get_iterations --workspace_id $WS_ID
+python scripts/tapd.py create_iteration --workspace_id $WS_ID --name "Sprint X" --startdate "2024-01-01" --enddate "2024-01-14"
+```
+
+### Timesheets
+```bash
+python scripts/tapd.py get_timesheets --workspace_id $WS_ID --entity_type story --entity_id $ID
+python scripts/tapd.py add_timesheets --workspace_id $WS_ID --entity_type story --entity_id $ID --timespent 4 --spentdate "2024-01-08"
+```
+
+### Comments
+```bash
+python scripts/tapd.py get_comments --workspace_id $WS_ID --entry_type stories --entry_id $ID
+python scripts/tapd.py create_comments --workspace_id $WS_ID --entry_type stories --entry_id $ID --description "评论内容"
+```
+
+## Status Values
+
+| Type | Field | Values |
+|------|-------|--------|
+| Story Priority | `priority_label` | High / Middle / Low / Nice To Have |
+| Bug Priority | `priority_label` | urgent / high / medium / low / insignificant |
+| Bug Severity | `severity` | fatal / serious / normal / prompt / advice |
+
+## Environment Variables
+
+Required:
+- `TAPD_ACCESS_TOKEN` - Personal access token (recommended)
+- OR `TAPD_API_USER` + `TAPD_API_PASSWORD` - API credentials
+
+Optional:
+- `TAPD_API_BASE_URL` - API endpoint (default: https://api.tapd.cn)
+- `TAPD_BASE_URL` - Web URL (default: https://www.tapd.cn)
+- `CURRENT_USER_NICK` - User nickname
+
+## Output Format
+
+All commands return JSON. Parse and present key information to users.
+
+Example for story query:
+```
+需求: [标题]
+状态: [状态]
+处理人: [处理人]
+优先级: [优先级]
+迭代: [迭代名称]
+```
+
+## Error Handling
+
+- Check `workspace_id` is provided for most commands
+- Verify entity type: `stories`, `tasks`, or `bugs`
+- Use Chinese status names for `v_status` field
+- Use fuzzy search with `%keyword%` pattern
+
+## Reference Documentation
+
+Detailed API usage: `references/` directory
+- `stories-tasks.md` - Requirements/tasks guide
+- `bugs.md` - Bug operations guide
+- `iterations.md` - Iteration management
+- `fields.md` - Field configuration
+- `testcases.md` - Test case operations

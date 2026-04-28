@@ -1,0 +1,1146 @@
+{
+  "base_url": "https://www.tapd.cn",
+  "data": [
+    {
+      "Bug": {
+        "id": "1150372234001012809",
+        "title": "验证商品库存不足时匹配下一笔进货单",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "彭腾;",
+        "de": "彭腾;",
+        "version_report": "测试版本",
+        "created": "2025-11-10 20:37:08",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001012869",
+        "title": "【批发升级】升级发放首次推荐奖，未发放首次，发放的补货",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "罗怀玉",
+        "de": "罗怀玉;",
+        "version_report": "测试版本",
+        "created": "2025-11-13 22:41:05",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001012887",
+        "title": "【门店端接口重复调用优化】/mall-extend/store/orderSearch重复调用",
+        "severity": "serious",
+        "status": "in_progress",
+        "current_owner": "戴婕妤",
+        "de": "陈方杰;",
+        "version_report": "测试版本",
+        "created": "2025-11-17 11:01:28",
+        "severity_cn": "严重",
+        "status_cn": "修复中"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001013366",
+        "title": "【下单后N天，门店端不支持售后】配置下单X天内支持售后的情况下门店端发货前的订单返回了支持退货退款，应该走之前的逻辑，发货前仅支持仅退款",
+        "severity": "normal",
+        "status": "in_progress",
+        "current_owner": "王骏;",
+        "de": "王骏;",
+        "version_report": "测试版本",
+        "created": "2025-12-29 14:59:52",
+        "severity_cn": "一般",
+        "status_cn": "修复中"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001013368",
+        "title": "【店长端，采购单是待发货状态时，提货单要支持退货退款】备货准备、可核销、已完成无需根据配置判断售后入口及类型，默认支持退款及退货退款",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "王骏;",
+        "de": "王骏;",
+        "version_report": "测试版本",
+        "created": "2025-12-29 15:06:32",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001013372",
+        "title": "【批量退款】批量退款退给店长应该判断团长垫付开关",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "王骏;",
+        "de": "王骏;",
+        "version_report": "测试版本",
+        "created": "2025-12-29 20:22:43",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001013376",
+        "title": "【批量退款】 订单有两个子单 批量退款表格两个子单都填写了退运费 重复退了两份运费",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "王骏;",
+        "de": "王骏;",
+        "version_report": "测试版本",
+        "created": "2025-12-30 09:59:00",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001013425",
+        "title": "【app1.0】扫码门店管理页面，无门店管理权限的用户扫码报错之后是否要跳转到个人中心",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "产品刘宇",
+        "de": "曹振辉;",
+        "version_report": "测试版本",
+        "created": "2026-01-05 19:19:59",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001013515",
+        "title": "【会员邀请】等级设置，指定等级为空保存报错",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "柳龙祥",
+        "de": "柳龙祥;",
+        "version_report": "测试版本",
+        "created": "2026-01-13 14:53:00",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001013520",
+        "title": "【会员邀请】设置时效，未默认选中等级",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "罗怀玉;",
+        "de": "刘子昱;",
+        "version_report": "测试版本",
+        "created": "2026-01-13 15:47:42",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001013616",
+        "title": "【淘货岛屿】商品分享卡片样式不显示",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "卢志豪;李红;",
+        "de": "李红;",
+        "version_report": "线上版本",
+        "created": "2026-01-22 15:37:34",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001013829",
+        "title": "【原生直播间】微页面配置跳转到直播间，目前是跳转到H5直播间",
+        "severity": "normal",
+        "status": "in_progress",
+        "current_owner": "吴铝;",
+        "de": "吴铝;",
+        "version_report": "测试版本",
+        "created": "2026-02-11 19:34:17",
+        "severity_cn": "一般",
+        "status_cn": "修复中"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001013835",
+        "title": "🖤【原生直播间】直播间没有我的奖品入口（应该是后面的需求）",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "吴铝",
+        "de": "吴铝;",
+        "version_report": "测试版本",
+        "created": "2026-02-11 19:57:44",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001013869",
+        "title": "🖤【原生直播间】安卓，直播间内点击商品或者其他按钮跳转到其他页面，会先黑屏闪一下（暂不解决）",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "文武;",
+        "de": "吴铝;",
+        "version_report": "测试版本",
+        "created": "2026-02-12 15:21:14",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001013918",
+        "title": "🖤【小程序原生】直播开启礼物打赏，进入直播间没有礼物打赏入口(sdk不支持)",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "文武",
+        "de": "吴铝;",
+        "version_report": "测试版本",
+        "created": "2026-02-26 14:28:46",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001013921",
+        "title": "🖤【小程序原生】开启同步会员等级，直播间没有展示会员等级(sdk不支持)",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "文武",
+        "de": "吴铝;",
+        "version_report": "测试版本",
+        "created": "2026-02-26 14:58:18",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001013935",
+        "title": "🖤【小程序原生】后台开启认真度检测，小程序直播中认真度检测的弹窗没有出来(不支持)",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "吴铝;",
+        "de": "吴铝;",
+        "version_report": "测试版本",
+        "created": "2026-02-26 17:40:44",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001013937",
+        "title": "🖤【小程序原生】横屏直播进入直播间是黑屏(暂不做）",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "文武;",
+        "de": "吴铝;",
+        "version_report": "测试版本",
+        "created": "2026-02-27 10:41:05",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001013954",
+        "title": "【小程序原生】设置为多个商品讲解，C端商品卡片滑不动（这个应该不是问题，之前也不能滑）",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "文武;",
+        "de": "吴铝;",
+        "version_report": "测试版本",
+        "created": "2026-02-28 14:17:18",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001013955",
+        "title": "【小程序原生】建议性问题：直播互动点击更多，与之前h5不一致",
+        "severity": "prompt",
+        "status": "unconfirmed",
+        "current_owner": "吴铝;",
+        "de": "吴铝;",
+        "version_report": "测试版本",
+        "created": "2026-02-28 14:31:49",
+        "severity_cn": "提示",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001013960",
+        "title": "【小程序原生】点击分享链接，生成短链失败(体验版不支持，需要正式版)",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "吴铝;",
+        "de": "吴铝;",
+        "version_report": "测试版本",
+        "created": "2026-02-28 17:29:21",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001013999",
+        "title": "【小程序原生】门店管理里面直播推广分享出去的还是走的H5小程序（这个确认一下，本次是否修改）",
+        "severity": "normal",
+        "status": "resolved",
+        "current_owner": "熊思;",
+        "de": "吴铝;",
+        "version_report": "测试版本",
+        "created": "2026-03-03 11:02:27",
+        "severity_cn": "一般",
+        "status_cn": "待测试"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014005",
+        "title": "【定金预售】h5。预售未开始的定金预售商品，没有下方的倒计时",
+        "severity": "normal",
+        "status": "resolved",
+        "current_owner": "卢志豪;",
+        "de": "戴婕妤;",
+        "version_report": "测试版本",
+        "created": "2026-03-03 14:19:02",
+        "severity_cn": "一般",
+        "status_cn": "待测试"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014007",
+        "title": "【小程序原生】开启邀请榜单，分享直播间给好友点击，没有新增邀请数据",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "吴铝",
+        "de": "吴铝;",
+        "version_report": "测试版本",
+        "created": "2026-03-03 15:49:02",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014008",
+        "title": "生成二维码串码",
+        "severity": "normal",
+        "status": "resolved",
+        "current_owner": "吴铝;",
+        "de": "吴铝;",
+        "version_report": "线上版本",
+        "created": "2026-03-03 16:06:00",
+        "severity_cn": "一般",
+        "status_cn": "待测试"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014009",
+        "title": "【定金预售】已结束与未开始的预售活动，支持定金和全款，期望在结束后，不需要展示定金的样式",
+        "severity": "normal",
+        "status": "resolved",
+        "current_owner": "卢志豪;",
+        "de": "戴婕妤;",
+        "version_report": "测试版本",
+        "created": "2026-03-03 16:49:11",
+        "severity_cn": "一般",
+        "status_cn": "待测试"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014013",
+        "title": "【小程序原生】部分手机没有 意见/反馈 按钮（感觉像是加载得很慢，偶现）",
+        "severity": "prompt",
+        "status": "unconfirmed",
+        "current_owner": "吴铝;",
+        "de": "吴铝;",
+        "version_report": "测试版本",
+        "created": "2026-03-03 17:01:11",
+        "severity_cn": "提示",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014014",
+        "title": "【小程序原生】体验优化：积分商城进入商品详情也慢",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "吴铝;",
+        "de": "吴铝;",
+        "version_report": "测试版本",
+        "created": "2026-03-03 17:01:58",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014015",
+        "title": "【小程序原生】直播间聊天功能延迟",
+        "severity": "prompt",
+        "status": "unconfirmed",
+        "current_owner": "吴铝;",
+        "de": "吴铝;",
+        "version_report": "测试版本",
+        "created": "2026-03-03 17:03:16",
+        "severity_cn": "提示",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014017",
+        "title": "【定金预售】预售进行中，同时支持全款和定金，用全款调起规格弹窗时。不需要展示定金金额",
+        "severity": "normal",
+        "status": "resolved",
+        "current_owner": "卢志豪;",
+        "de": "戴婕妤;",
+        "version_report": "测试版本",
+        "created": "2026-03-03 18:22:16",
+        "severity_cn": "一般",
+        "status_cn": "待测试"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014019",
+        "title": "【小程序原生】H5生成的海报，开启了小程序原生直播开关的情况下分享，对方进入的还是H5（经过沟通，此版本先不改，后面会保持一致）",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "吴铝;",
+        "de": "吴铝;",
+        "version_report": "测试版本",
+        "created": "2026-03-03 18:33:24",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014024",
+        "title": "【小程序原生】直播间内分享卡片到微信、分享海报，没有带门店名称",
+        "severity": "normal",
+        "status": "in_progress",
+        "current_owner": "文武;",
+        "de": "吴铝;",
+        "version_report": "测试版本",
+        "created": "2026-03-03 20:23:48",
+        "severity_cn": "一般",
+        "status_cn": "修复中"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014047",
+        "title": "【升级海报】小程序的指定等级升级海报 应用/微页面链接 跳转都问题，都只会到首页",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": null,
+        "de": "刘子昱;",
+        "version_report": "测试版本",
+        "created": "2026-03-04 21:43:55",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014055",
+        "title": "【京都百货】APP用户进入报错",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "曹振辉",
+        "de": "曹振辉;",
+        "version_report": "线上版本",
+        "created": "2026-03-07 11:14:48",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014083",
+        "title": "【门店工单】小程序原生--门店管理页面的门店工单右上角角标数字没刷新",
+        "severity": "normal",
+        "status": "resolved",
+        "current_owner": "周树梧;",
+        "de": "周树梧;",
+        "version_report": "测试版本",
+        "created": "2026-03-09 17:08:31",
+        "severity_cn": "一般",
+        "status_cn": "待测试"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014099",
+        "title": "【锦诺】门店店长同时也是店老板的身份，用户无法导出客户信息",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "方杭;",
+        "de": "方杭;",
+        "version_report": "线上版本",
+        "created": "2026-03-10 20:48:40",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014106",
+        "title": "【老王之家】APP一键微信授权微信登录的时候显示获取用户信息失败",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "罗怀玉",
+        "de": "罗怀玉;",
+        "version_report": "线上版本",
+        "created": "2026-03-11 15:22:12",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014107",
+        "title": "【数据迁移】视频号-数据概览-未结算机构服务费，字段展示异常，导出字段为0.12，列表展示为0",
+        "severity": "normal",
+        "status": "resolved",
+        "current_owner": "肖高武;卢志豪;",
+        "de": "肖高武;",
+        "version_report": "测试版本",
+        "created": "2026-03-11 15:51:06",
+        "severity_cn": "一般",
+        "status_cn": "待测试"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014117",
+        "title": "【田猫好物】修改个人中心的客服图标不生效",
+        "severity": "normal",
+        "status": "resolved",
+        "current_owner": "卢志豪",
+        "de": "文武;",
+        "version_report": "线上版本",
+        "created": "2026-03-13 09:33:35",
+        "severity_cn": "一般",
+        "status_cn": "待测试"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014119",
+        "title": "客户--反馈与投诉筛选门店分组无效",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "陈方杰",
+        "de": "陈方杰;",
+        "version_report": "线上版本",
+        "created": "2026-03-13 14:02:44",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014121",
+        "title": "【数据迁移】商品排行-按规格，退款金额没有读取订单S20260313111706005965461的退款金额",
+        "severity": "normal",
+        "status": "resolved",
+        "current_owner": "肖高武;",
+        "de": "肖高武;",
+        "version_report": "测试版本",
+        "created": "2026-03-13 15:15:08",
+        "severity_cn": "一般",
+        "status_cn": "待测试"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014132",
+        "title": "【数据板块历史问题】退款商品的运费，成功退给客户后，净收款还是-2，期望是0",
+        "severity": "normal",
+        "status": "resolved",
+        "current_owner": "肖高武;卢志豪;",
+        "de": "肖高武;",
+        "version_report": "测试版本",
+        "created": "2026-03-14 17:21:14",
+        "severity_cn": "一般",
+        "status_cn": "待测试"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014134",
+        "title": "【国际艺术】APP内优惠券不能选择2张以上",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "周小芳_20241025090132",
+        "de": "周小芳_20241025090132;",
+        "version_report": "线上版本",
+        "created": "2026-03-16 09:45:31",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014142",
+        "title": "【原生-线上】很多顾客反馈直播卡顿，没法看（黑屏&白屏两个问题）",
+        "severity": "serious",
+        "status": "unconfirmed",
+        "current_owner": "文武;",
+        "de": "吴铝;",
+        "version_report": "线上版本",
+        "created": "2026-03-16 11:56:16",
+        "severity_cn": "严重",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014143",
+        "title": "【原生-线上】评论会员名字前的会员等级不显示",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "文武;",
+        "de": "吴铝;",
+        "version_report": "线上版本",
+        "created": "2026-03-16 11:57:01",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014145",
+        "title": "【原生-线上】微信关怀模式或大字体模式无法同步小程序内容及直播间弹幕",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "文武",
+        "de": "吴铝;",
+        "version_report": "线上版本",
+        "created": "2026-03-16 11:58:38",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014146",
+        "title": "【原生-线上】定金链接不支持原生模式，"需要同意定金不支持退款协议"",
+        "severity": "normal",
+        "status": "resolved",
+        "current_owner": "文武;",
+        "de": "吴铝;",
+        "version_report": "线上版本",
+        "created": "2026-03-16 11:59:18",
+        "severity_cn": "一般",
+        "status_cn": "待测试"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014148",
+        "title": "【原生-线上】门店管理-店员/店长分享直播需要支持分享原生直播二维码",
+        "severity": "serious",
+        "status": "in_progress",
+        "current_owner": "熊思;",
+        "de": "吴铝;",
+        "version_report": "线上版本",
+        "created": "2026-03-16 12:01:10",
+        "severity_cn": "严重",
+        "status_cn": "修复中"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014152",
+        "title": "【监控台累计观看】用户进入原生直播间entry为null没有对应数据",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": null,
+        "de": "李金涛;",
+        "version_report": "测试版本",
+        "created": "2026-03-16 16:01:00",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014167",
+        "title": "【门店商品数据】商品数据这里，昵称和编号的传参type传反了",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "李金涛",
+        "de": "李金涛;",
+        "version_report": "测试版本",
+        "created": "2026-03-16 20:12:29",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014170",
+        "title": "【后台推广】微信打开门店推广，进的是h5首页",
+        "severity": "normal",
+        "status": "resolved",
+        "current_owner": "方杭",
+        "de": "方乐;",
+        "version_report": "测试版本",
+        "created": "2026-03-16 20:24:32",
+        "severity_cn": "一般",
+        "status_cn": "待测试"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014172",
+        "title": "【后台推广】销售员管理，用户推广直播，没有锁客",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "李金涛",
+        "de": "李金涛;",
+        "version_report": "测试版本",
+        "created": "2026-03-16 20:59:14",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014178",
+        "title": "用户冻结后还可进入小程序",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "唐尧",
+        "de": "陈方杰;",
+        "version_report": "线上版本",
+        "created": "2026-03-17 10:46:12",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014187",
+        "title": "数据--售后分析，付款金额统计了没付款的订单",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "卢志豪",
+        "de": "殷志恺;",
+        "version_report": "线上版本",
+        "created": "2026-03-17 15:12:58",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014205",
+        "title": "【原生-线上】邀请榜单，邀请列表无法滑动",
+        "severity": "normal",
+        "status": "in_progress",
+        "current_owner": "熊思;",
+        "de": "吴铝;",
+        "version_report": "线上版本",
+        "created": "2026-03-18 19:15:09",
+        "severity_cn": "一般",
+        "status_cn": "修复中"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014209",
+        "title": "【原生-线上】分享直播间-生成连接失败",
+        "severity": "normal",
+        "status": "in_progress",
+        "current_owner": "吴铝;",
+        "de": "吴铝;",
+        "version_report": "线上版本",
+        "created": "2026-03-19 09:38:36",
+        "severity_cn": "一般",
+        "status_cn": "修复中"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014215",
+        "title": "同一域名下，代理登录过商家A数据中心，再登录商家B数据中心，会将商家A的信息带过去",
+        "severity": "serious",
+        "status": "resolved",
+        "current_owner": "殷志恺;",
+        "de": "吴铝;",
+        "version_report": "线上版本",
+        "created": "2026-03-19 17:10:16",
+        "severity_cn": "严重",
+        "status_cn": "待测试"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014216",
+        "title": "【【焦下】旺店通企业版全量库存查询】旺店通版本选择旗舰版时不应该展示指定仓库选项",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "吕松豪_20241025085808;",
+        "de": "吕松豪_20241025085808;",
+        "version_report": "测试版本",
+        "created": "2026-03-19 17:23:32",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014220",
+        "title": "家有良物-服务商数据问题，认证主体是企业，提现显示的是个人",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "江进武",
+        "de": "江进武;",
+        "version_report": "线上版本",
+        "created": "2026-03-20 10:23:56",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014230",
+        "title": "【纤益享】推荐收益下载表格数据展示错误",
+        "severity": "prompt",
+        "status": "resolved",
+        "current_owner": "罗怀玉;",
+        "de": "陈磊;",
+        "version_report": "线上版本",
+        "created": "2026-03-20 15:03:21",
+        "severity_cn": "提示",
+        "status_cn": "待测试"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014235",
+        "title": "私域掌柜经营数据，利润成负数，与商城后台成本利润分析数据不匹配",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "肖高武;于毅;",
+        "de": "肖高武;",
+        "version_report": "线上版本",
+        "created": "2026-03-23 14:38:36",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014238",
+        "title": "【APP商学院】短视频点击下载素材，跳转页面后，没有下载按钮",
+        "severity": "normal",
+        "status": "resolved",
+        "current_owner": "方乐;",
+        "de": "方乐;",
+        "version_report": "测试版本",
+        "created": "2026-03-23 16:15:19",
+        "severity_cn": "一般",
+        "status_cn": "待测试"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014239",
+        "title": "【APP商学院】短视频关联多个商品，点击商品弹窗样式错乱",
+        "severity": "normal",
+        "status": "resolved",
+        "current_owner": "方乐;",
+        "de": "方乐;",
+        "version_report": "测试版本",
+        "created": "2026-03-23 16:16:35",
+        "severity_cn": "一般",
+        "status_cn": "待测试"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014240",
+        "title": "【APP商学院】商品购买按钮以及下架按钮等样式有问题",
+        "severity": "normal",
+        "status": "resolved",
+        "current_owner": "方乐;",
+        "de": "方乐;",
+        "version_report": "测试版本",
+        "created": "2026-03-23 16:17:56",
+        "severity_cn": "一般",
+        "status_cn": "待测试"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014241",
+        "title": "【原生-线上】主持人发表情评论，用户侧无法正常展示",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "文武",
+        "de": "吴铝;",
+        "version_report": "线上版本",
+        "created": "2026-03-23 16:53:38",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014242",
+        "title": "一品一播-原生直播设置了强制授权昵称，但是没有授权也可以进",
+        "severity": "normal",
+        "status": "in_progress",
+        "current_owner": "熊思",
+        "de": "文武;",
+        "version_report": "线上版本",
+        "created": "2026-03-23 17:04:34",
+        "severity_cn": "一般",
+        "status_cn": "修复中"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014243",
+        "title": "【老王之家】店铺-工单，工单只能显示更新时间，不显示最近更新人",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "颜杨;陈方杰;",
+        "de": "陈方杰;李金涛;",
+        "version_report": "线上版本",
+        "created": "2026-03-23 17:04:58",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014244",
+        "title": "【上门取件】售后订单-退换货-待退款下面子状态二次点击没有取消选中，没有默认展示全部",
+        "severity": "prompt",
+        "status": "unconfirmed",
+        "current_owner": "戴婕妤;",
+        "de": "戴婕妤;",
+        "version_report": "测试版本",
+        "created": "2026-03-23 17:17:11",
+        "severity_cn": "提示",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014245",
+        "title": "【定金预售-原生直播】没办法滑动定金预售规则",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "刘奕君;",
+        "de": "刘奕君;",
+        "version_report": "测试版本",
+        "created": "2026-03-23 17:47:43",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014246",
+        "title": "红包提现记录的查询接口-只能选最近三个月-无法选之前的月份",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "陈方杰;",
+        "de": "陈方杰;",
+        "version_report": "测试版本",
+        "created": "2026-03-23 17:56:21",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014247",
+        "title": "【定金预售-app】加入购物车，按钮样式错误，商品名称：全款定金-已结束-lulu",
+        "severity": "normal",
+        "status": "resolved",
+        "current_owner": "方乐;",
+        "de": "方乐;",
+        "version_report": "测试版本",
+        "created": "2026-03-23 17:57:08",
+        "severity_cn": "一般",
+        "status_cn": "待测试"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014248",
+        "title": "【惠买超市】合并账号后下单所属门店不对",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": null,
+        "de": "殷志恺;",
+        "version_report": "线上版本",
+        "created": "2026-03-23 18:27:00",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014249",
+        "title": "【惠买超市】用户没权限观看直播 但是能进去",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "",
+        "de": "王波_20250709093027;",
+        "version_report": "线上版本",
+        "created": "2026-03-23 18:30:06",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014251",
+        "title": "优惠券种类多的情况下无法下拉选择下面的优惠券类型",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": null,
+        "de": "殷志恺;",
+        "version_report": "线上版本",
+        "created": "2026-03-24 10:37:17",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014252",
+        "title": "【家有良物服务商定开1.0】基础设置配置的是已签约，但是店铺定级成为服务商后，服务商的状态是待签约",
+        "severity": "normal",
+        "status": "verified",
+        "current_owner": "江进武;",
+        "de": "江进武;",
+        "version_report": "测试版本",
+        "created": "2026-03-24 13:48:48",
+        "severity_cn": "一般",
+        "status_cn": "测试中"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014253",
+        "title": "【定金预售】只有定金预售，预售进行中的商品，没有出现横幅与下定金的规格弹窗，商品id：1943601",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "方乐;",
+        "de": "方乐;",
+        "version_report": "测试版本",
+        "created": "2026-03-24 13:52:44",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014254",
+        "title": "【定金预售】只有定金，但活动未开始，没有展示横幅与下方的灰色的定金支付按钮",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "方乐;",
+        "de": "方乐;",
+        "version_report": "测试版本",
+        "created": "2026-03-24 14:01:21",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014255",
+        "title": "【家有良物服务商定开1.0】服务商定级满足"市级服务商（优秀）"条件，修改等级条件不满足后，执行核验定时任务服务商没有降级",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": "江进武;",
+        "de": "江进武;",
+        "version_report": "测试版本",
+        "created": "2026-03-24 17:14:53",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014257",
+        "title": "积分商品在积分商城没展示最低价格",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": null,
+        "de": "殷志恺;",
+        "version_report": "线上版本",
+        "created": "2026-03-24 17:17:17",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014258",
+        "title": "活动中心-奖励记录无法翻页",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": null,
+        "de": "殷志恺;",
+        "version_report": "线上版本",
+        "created": "2026-03-24 17:19:31",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    },
+    {
+      "Bug": {
+        "id": "1150372234001014259",
+        "title": "活动中心--奖励记录展示的数据有问题",
+        "severity": "normal",
+        "status": "unconfirmed",
+        "current_owner": null,
+        "de": "殷志恺;",
+        "version_report": "线上版本",
+        "created": "2026-03-24 17:22:47",
+        "severity_cn": "一般",
+        "status_cn": "缺陷池"
+      }
+    }
+  ],
+  "count": {
+    "status": 1,
+    "data": {
+      "count": 81
+    },
+    "info": "success"
+  }
+}

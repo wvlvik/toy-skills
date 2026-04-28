@@ -148,7 +148,7 @@ def main():
     source_skills = [
         d
         for d in source_dir.iterdir()
-        if d.is_dir() and (d / "SKILL.md").exists() and d.name not in ["skill-release", "performance-evaluation", "tapd-idle"]
+        if d.is_dir() and (d / "SKILL.md").exists() and d.name not in ["skill-release", "performance-evaluation"]
     ]
 
     if args.skill:
