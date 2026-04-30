@@ -49,11 +49,32 @@ def get_skill_version(skill_dir: Path) -> str:
     return "1.0.0"
 
 
+def bump_version(version: str) -> str:
+    """Bump patch version (1.2.3 -> 1.2.4)."""
+    parts = version.split('.')
+    if len(parts) == 3:
+        major, minor, patch = parts
+        return f"{major}.{minor}.{int(patch) + 1}"
+    return version
+
+
+def update_package_json_version(skill_dir: Path, new_version: str) -> None:
+    """Update version in package.json."""
+    package_json = skill_dir / "package.json"
+    if package_json.exists():
+        try:
+            data = json.loads(package_json.read_text())
+            data["version"] = new_version
+            package_json.write_text(json.dumps(data, indent=2) + "\n")
+        except (json.JSONDecodeError, KeyError):
+            pass
+
+
 def copy_skill(
     source: Path, dest: Path, dry_run: bool = False
 ) -> tuple[bool, Optional[str]]:
     """
-    Copy skill from source to destination.
+    Copy skill from source to destination with version bump.
 
     Returns:
         (was_copied, version)
@@ -71,22 +92,31 @@ def copy_skill(
         print(f"  ✓ No changes (v{dest_version})")
         return False, None
 
+    # Calculate new version
+    if dest.exists():
+        dest_version = get_skill_version(dest)
+        new_version = bump_version(dest_version)
+    else:
+        # First release - use source version or default to 1.0.0
+        new_version = source_version if source_version != "1.0.0" else "1.0.0"
+
     if dry_run:
         print(f"  [DRY-RUN] Would copy to {dest}")
-        print(f"  [DRY-RUN] Version: v{source_version}")
-        return True, source_version
+        print(f"  [DRY-RUN] Version: v{new_version}")
+        return True, new_version
 
     if dest.exists():
         shutil.rmtree(dest)
 
     shutil.copytree(source, dest)
-
+    update_package_json_version(dest, new_version)
+    
     legacy_version_file = dest / "version.txt"
     if legacy_version_file.exists():
         legacy_version_file.unlink()
 
-    print(f"  ✅ Copied v{source_version}")
-    return True, source_version
+    print(f"  ✅ Copied v{new_version}")
+    return True, new_version
 
 
 def run_git_commands(dry_run: bool = False) -> bool:
