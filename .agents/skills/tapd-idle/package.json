@@ -1,6 +1,6 @@
 {
   "name": "tapd-idle",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "TAPD 敏捷研发管理平台集成，支持需求、缺陷、任务、迭代、测试用例、Wiki 等实体管理",
   "author": "workspace",
   "license": "MIT",
