@@ -199,8 +199,8 @@ python scripts/tapd.py get_stories_or_tasks --workspace_id 50372234 --entity_typ
 ### 前端组任务统计（推荐方式）
 
 > **重要**: 直接使用 `--owner` 参数指定中文姓名可能匹配失败，建议查询所有任务后在结果中筛选。
-
-**前端组成员列表**：刘奕君, 刘子昱, 吴凯, 吴铝, 周树梧, 唐尧, 戴婕妤, 文武, 方乐, 曹振辉, 李金涛, 杨旸卓, 汤显文, 熊思, 陈方杰, 陈铁梁
+>
+> **前端组成员通过 role_id 动态查询**，role_id `1150372234001000020` 对应前端组。
 
 **分状态查询并筛选前端组成员**：
 ```bash
@@ -222,11 +222,11 @@ python scripts/tapd.py get_stories_or_tasks --workspace_id 50372234 --entity_typ
 
 **完整统计脚本**（本周任务进度，按成员、时间范围、工时、状态）：
 ```bash
-# 定义前端组成员
-FRONTEND_MEMBERS="刘奕君|刘子昱|吴凯|吴铝|周树梧|唐尧|戴婕妤|文武|方乐|曹振辉|李金涛|杨旸卓|汤显文|熊思|陈方杰|陈铁梁"
-
 # 查询并统计（合并已完成和进行中任务）
+# 先获取前端组成员（通过 role_id），再筛选任务
 {
+  python scripts/tapd.py get_workspace_users --workspace_id 50372234
+  sleep 1
   python scripts/tapd.py get_stories_or_tasks --workspace_id 50372234 --entity_type tasks \
       --fields "id,name,owner,status,begin,due,effort,effort_completed" \
       --status done --limit 200
@@ -239,40 +239,54 @@ import json
 import sys
 from datetime import datetime
 
+# 前端组 role_id
+FRONTEND_ROLE_ID = '1150372234001000020'
+
 # 本周时间范围
 week_start = datetime.strptime('2026-03-03', '%Y-%m-%d')
 week_end = datetime.strptime('2026-03-10', '%Y-%m-%d')
 
-# 前端组成员
-frontend_members = ['刘奕君', '刘子昱', '吴凯', '吴铝', '周树梧', '唐尧', '戴婕妤', '文武', '方乐', '曹振辉', '李金涛', '杨旸卓', '汤显文', '熊思', '陈方杰', '陈铁梁']
-
-# 合并多次查询结果
-all_tasks = []
+# 解析所有输入
+all_json = []
 for line in sys.stdin:
     line = line.strip()
     if line and line.startswith('{'):
         try:
-            data = json.loads(line)
-            all_tasks.extend(data.get('data', []))
+            all_json.append(json.loads(line))
         except:
             pass
+
+# 提取前端组成员
+frontend_members = set()
+for data in all_json:
+    if data.get('status') == 1:
+        for item in data.get('data', []):
+            user = item.get('UserWorkspace', {})
+            if FRONTEND_ROLE_ID in user.get('role_id', []):
+                name = user.get('name') or user.get('user')
+                if name:
+                    frontend_members.add(name)
+
+# 合并任务数据
+all_tasks = []
+for data in all_json:
+    all_tasks.extend(data.get('data', []))
 
 # 筛选前端组成员任务
 member_stats = {}
 for item in all_tasks:
     task = item.get('Task', {})
+    if not task:
+        continue
     owner = task.get('owner', '').rstrip(';')
 
     # 筛选前端组成员
-    is_frontend = any(m in owner for m in frontend_members)
-    if not is_frontend:
+    if owner not in frontend_members:
         continue
 
     effort = float(task.get('effort', 0) or 0)
     effort_completed = float(task.get('effort_completed', 0) or 0)
     status = task.get('status', '')
-    begin = task.get('begin', '')
-    due = task.get('due', '')
 
     if owner not in member_stats:
         member_stats[owner] = {'effort': 0, 'completed': 0, 'count': 0, 'status': {}}
@@ -282,7 +296,7 @@ for item in all_tasks:
     member_stats[owner]['status'][status] = member_stats[owner]['status'].get(status, 0) + 1
 
 # 输出统计结果
-print('前端组本周任务进度统计 (2026-03-03 ~ 2026-03-10)')
+print('前端组本周任务进度统计')
 print('=' * 70)
 print(f\"{'成员':<10} {'任务数':<6} {'预估工时':<8} {'完成工时':<8} {'状态分布'}\")
 print('-' * 70)
@@ -297,38 +311,62 @@ print(f\"{'合计':<10} {sum(s['count'] for s in member_stats.values()):<6} {sum
 ### 筛选本周时间范围内的任务
 
 ```bash
-# 筛选预计时间在本周范围内的任务
-python scripts/tapd.py get_stories_or_tasks --workspace_id 50372234 --entity_type tasks \
-    --fields "id,name,owner,status,begin,due,effort,effort_completed,remain" \
-    --limit 500 | python3 -c "
+# 筛选预计时间在本周范围内的任务（通过 role_id 动态获取前端组成员）
+{
+  python scripts/tapd.py get_workspace_users --workspace_id 50372234
+  sleep 1
+  python scripts/tapd.py get_stories_or_tasks --workspace_id 50372234 --entity_type tasks \
+      --fields "id,name,owner,status,begin,due,effort,effort_completed,remain" \
+      --limit 500
+} | python3 -c "
 import json
 import sys
 from datetime import datetime
 
-data = json.load(sys.stdin)
+FRONTEND_ROLE_ID = '1150372234001000020'
+
+all_json = []
+for line in sys.stdin:
+    line = line.strip()
+    if line and line.startswith('{'):
+        try:
+            all_json.append(json.loads(line))
+        except:
+            pass
+
+# 提取前端组成员
+frontend_members = set()
+for data in all_json:
+    if data.get('status') == 1:
+        for item in data.get('data', []):
+            user = item.get('UserWorkspace', {})
+            if FRONTEND_ROLE_ID in user.get('role_id', []):
+                name = user.get('name') or user.get('user')
+                if name:
+                    frontend_members.add(name)
+
 week_start = datetime.strptime('2026-03-03', '%Y-%m-%d')
 week_end = datetime.strptime('2026-03-10', '%Y-%m-%d')
 
-frontend_members = ['刘奕君', '刘子昱', '吴凯', '吴铝', '周树梧', '唐尧', '戴婕妤', '文武', '方乐', '曹振辉', '李金涛', '杨旸卓', '汤显文', '熊思', '陈方杰', '陈铁梁']
-
 print('本周任务列表（预计时间在范围内）:')
-for item in data.get('data', []):
-    task = item.get('Task', {})
-    owner = task.get('owner', '').rstrip(';')
+for data in all_json:
+    for item in data.get('data', []):
+        task = item.get('Task', {})
+        if not task:
+            continue
+        owner = task.get('owner', '').rstrip(';')
 
-    # 筛选前端组成员
-    is_frontend = any(m in owner for m in frontend_members)
-    if not is_frontend:
-        continue
+        if owner not in frontend_members:
+            continue
 
-    begin = task.get('begin', '')
-    due = task.get('due', '')
-    effort = task.get('effort', '0')
+        begin = task.get('begin', '')
+        due = task.get('due', '')
+        effort = task.get('effort', '0')
 
-    if begin:
-        begin_dt = datetime.strptime(begin[:10], '%Y-%m-%d')
-        if week_start <= begin_dt <= week_end:
-            print(f\"  {owner} | {task.get('name')[:30]} | {begin}~{due} | 预估: {effort}h\")
+        if begin:
+            begin_dt = datetime.strptime(begin[:10], '%Y-%m-%d')
+            if week_start <= begin_dt <= week_end:
+                print(f\"  {owner} | {task.get('name')[:30]} | {begin}~{due} | 预估: {effort}h\")
 "
 ```
 
@@ -515,36 +553,61 @@ python scripts/tapd.py add_timesheets --workspace_id 123 \
 
 **按成员筛选前端组工时**：
 ```bash
-# 查询本周工时并筛选前端组成员
-python scripts/tapd.py get_timesheets --workspace_id 50372234 --spentdate "2026-03-03~2026-03-10" | python3 -c "
+# 查询本周工时并筛选前端组成员（通过 role_id 动态获取）
+{
+  python scripts/tapd.py get_workspace_users --workspace_id 50372234
+  sleep 1
+  python scripts/tapd.py get_timesheets --workspace_id 50372234 --spentdate "2026-03-03~2026-03-10"
+} | python3 -c "
 import json
 import sys
 
-# 前端组成员列表
-frontend_members = ['刘奕君', '刘子昱', '吴凯', '吴铝', '周树梧', '唐尧', '戴婕妤', '文武', '方乐', '曹振辉', '李金涛', '杨旸卓', '汤显文', '熊思', '陈方杰', '陈铁梁']
+FRONTEND_ROLE_ID = '1150372234001000020'
 
-data = json.load(sys.stdin)
+all_json = []
+for line in sys.stdin:
+    line = line.strip()
+    if line and line.startswith('{'):
+        try:
+            all_json.append(json.loads(line))
+        except:
+            pass
+
+# 提取前端组成员
+frontend_members = set()
+for data in all_json:
+    if data.get('status') == 1:
+        for item in data.get('data', []):
+            user = item.get('UserWorkspace', {})
+            if FRONTEND_ROLE_ID in user.get('role_id', []):
+                name = user.get('name') or user.get('user')
+                if name:
+                    frontend_members.add(name)
+
 member_stats = {}
-for item in data.get('data', []):
-    ts = item.get('Timesheet', {})
-    owner = ts.get('owner', '')
-    timespent = float(ts.get('timespent', 0))
-    spentdate = ts.get('spentdate', '')
+for data in all_json:
+    for item in data.get('data', []):
+        ts = item.get('Timesheet', {})
+        if not ts:
+            continue
+        owner = ts.get('owner', '')
+        timespent = float(ts.get('timespent', 0))
+        spentdate = ts.get('spentdate', '')
 
-    is_frontend = any(m in owner for m in frontend_members)
-    if is_frontend:
-        if owner not in member_stats:
-            member_stats[owner] = {'total_hours': 0, 'days': {}}
-        member_stats[owner]['total_hours'] += timespent
-        if spentdate not in member_stats[owner]['days']:
-            member_stats[owner]['days'][spentdate] = 0
-        member_stats[owner]['days'][spentdate] += timespent
+        if owner in frontend_members:
+            if owner not in member_stats:
+                member_stats[owner] = {'total_hours': 0, 'days': {}}
+            member_stats[owner]['total_hours'] += timespent
+            if spentdate not in member_stats[owner]['days']:
+                member_stats[owner]['days'][spentdate] = 0
+            member_stats[owner]['days'][spentdate] += timespent
 
 print('前端组本周工时统计')
 for member, stats in sorted(member_stats.items(), key=lambda x: -x[1]['total_hours']):
     print(f\"{member}: {stats['total_hours']:.0f}h\")
 print(f\"总计: {sum(s['total_hours'] for s in member_stats.values()):.0f}h\")
 "
+```
 
 ### 评论管理
 
